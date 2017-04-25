@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>API Reference - Scikit-garden</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../css/highlight.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "API Reference";
+    var mkdocs_page_input_path = "api.md";
+    var mkdocs_page_url = "/api/";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js"></script>
+  <script src="../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../js/highlight.pack.js"></script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Scikit-garden</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="./">API Reference</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#api-documentation-of-skgarden">API documentation of skgarden</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#table-of-contents">Table of contents</a></li>
+        
+            <li><a class="toctree-l3" href="#skgardenmondrian_1">skgarden.mondrian</a></li>
+        
+            <li><a class="toctree-l3" href="#skgardenquantile_1">skgarden.quantile</a></li>
+        
+        </ul>
+    
+
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../trees/about/">Trees</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../ensembles/about/">Ensembles</a>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Scikit-garden</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>API Reference</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="api-documentation-of-skgarden">API documentation of skgarden</h1>
+<h2 id="table-of-contents">Table of contents</h2>
+<h3 id="skgardenmondrian"><a href="#skgardenmondrian">skgarden.mondrian</a></h3>
+<ul>
+<li><a href="#skgardenmondrianmondrianforestregressor">skgarden.mondrian.MondrianForestRegressor</a></li>
+<li><a href="#skgardenmondrianmondriantreeregressor">skgarden.mondrian.MondrianTreeRegressor</a></li>
+</ul>
+<h3 id="skgardenquantile"><a href="#skgardenquantile">skgarden.quantile</a></h3>
+<ul>
+<li><a href="#skgardenquantiledecisiontreequantileregressor">skgarden.quantile.DecisionTreeQuantileRegressor</a></li>
+<li><a href="#skgardenquantileextratreequantileregressor">skgarden.quantile.ExtraTreeQuantileRegressor</a></li>
+<li><a href="#skgardenquantileextratreesquantileregressor">skgarden.quantile.ExtraTreesQuantileRegressor</a></li>
+<li><a href="#skgardenquantilerandomforestquantileregressor">skgarden.quantile.RandomForestQuantileRegressor</a></li>
+</ul>
+<h2 id="skgardenmondrian_1">skgarden.mondrian</h2>
+<h3 id="skgardenmondrianmondrianforestregressor">skgarden.mondrian.MondrianForestRegressor</h3>
+<p>A MondrianForestRegressor is an ensemble of MondrianTrees.</p>
+<p>The variance in predictions is reduced by averaging the predictions
+from all trees.</p>
+<p><em>Parameters</em></p>
+<ul>
+<li>
+<p><code>n_estimators</code> (integer, optional (default=10))</p>
+<p>The number of trees in the forest.</p>
+</li>
+<li>
+<p><code>max_depth</code> (integer, optional (default=None))</p>
+<p>The depth to which each tree is grown. If None, the tree is either
+grown to full depth or is constrained by <code>min_samples_split</code>.</p>
+</li>
+<li>
+<p><code>min_samples_split</code> (integer, optional (default=2))</p>
+<p>Stop growing the tree if all the nodes have lesser than
+<code>min_samples_split</code> number of samples.</p>
+</li>
+<li>
+<p><code>bootstrap</code> (boolean, optional (default=False))</p>
+<p>If bootstrap is set to False, then all trees are trained on the
+entire training dataset. Else, each tree is fit on n_samples
+drawn with replacement from the training dataset.</p>
+</li>
+<li>
+<p><code>random_state</code> (int, RandomState instance or None, optional (default=None))</p>
+<p>If int, random_state is the seed used by the random number generator;
+If RandomState instance, random_state is the random number generator;
+If None, the random number generator is the RandomState instance used
+by <code>np.random</code>.</p>
+</li>
+</ul>
+<h4 id="methods">Methods</h4>
+<h5 id="mondrianforestregressorfitx-y">MondrianForestRegressor.fit(X, y)</h5>
+<p>Builds a forest of trees from the training set (X, y).</p>
+<p><em>Parameters</em></p>
+<ul>
+<li>
+<p><code>X</code> (array-like or sparse matrix of shape = [n_samples, n_features])</p>
+<p>The training input samples. Internally, its dtype will be converted to
+<code>dtype=np.float32</code>. If a sparse matrix is provided, it will be
+converted into a sparse <code>csc_matrix</code>.</p>
+</li>
+<li>
+<p><code>y</code> (array-like, shape = [n_samples] or [n_samples, n_outputs])</p>
+<p>The target values (class labels in classification, real numbers in
+regression).</p>
+</li>
+<li>
+<p><code>sample_weight</code> (array-like, shape = [n_samples] or None)</p>
+<p>Sample weights. If None, then samples are equally weighted. Splits
+that would create child nodes with net zero or negative weight are
+ignored while searching for a split in each node. In the case of
+classification, splits are also ignored if they would result in any
+single class carrying a negative weight in either child node.</p>
+</li>
+</ul>
+<p><em>Returns</em></p>
+<ul>
+<li>
+<p><code>self</code> (object)</p>
+<p>Returns self.</p>
+</li>
+</ul>
+<h5 id="mondrianforestregressorpredictx-return_stdfalse">MondrianForestRegressor.predict(X, return_std=False)</h5>
+<p>Returns the predicted mean and std.</p>
+<p>The prediction is a GMM drawn from
+\sum_{i=1}^T w_i N(m_i, \sigma_i) where w_i = 1 / T.</p>
+<p>The mean E[Y | X] reduces to 1 / T * \sum_{i=1}^T m_i</p>
+<p>The variance Var[Y | X] is given by
+    = E[Y<strong>2 | X] - E[Y | X]</strong>2
+    = (1 / T) * \sum_{i=1}^T E[Y<strong>2_i| X] - E[Y| X]</strong>2
+    = (1 / T) * \sum_{i=1}^T (Var[Y_i | X] + E[Y_i | X]<strong>2) - E[Y| X]</strong>2</p>
+<p><em>Parameters</em></p>
+<ul>
+<li>
+<p><code>X</code> (array-like, shape = (n_samples, n_features))</p>
+<p>Input samples.</p>
+</li>
+<li>
+<p><code>return_std</code> (boolean, default (False))</p>
+<p>Whether or not to return the standard deviation.</p>
+</li>
+</ul>
+<p><em>Returns</em></p>
+<ul>
+<li>
+<p><code>y</code> (array-like, shape = (n_samples,))</p>
+<p>Predictions at X.</p>
+</li>
+<li>
+<p><code>std</code> (array-like, shape = (n_samples,))</p>
+<p>Standard deviation at X.</p>
+</li>
+</ul>
+<h5 id="mondrianforestregressorweighted_decision_pathx">MondrianForestRegressor.weighted_decision_path(X)</h5>
+<p>Returns the weighted decision path in the forest.</p>
+<p>Each non-zero value in the decision path determines the
+weight of that particular node while making predictions.</p>
+<p><em>Parameters</em></p>
+<ul>
+<li>
+<p><code>X</code> (array-like, shape = (n_samples, n_features))</p>
+<p>Input.</p>
+</li>
+</ul>
+<p><em>Returns</em></p>
+<ul>
+<li>
+<p><code>decision_path</code> (sparse csr matrix, shape = (n_samples, n_total_nodes))</p>
+<p>Return a node indicator matrix where non zero elements
+indicate the weight of that particular node in making predictions.</p>
+</li>
+<li>
+<p><code>est_inds</code> (array-like, shape = (n_estimators + 1,))</p>
+<p>weighted_decision_path[:, est_inds[i]: est_inds[i + 1]]
+provides the weighted_decision_path of estimator i</p>
+</li>
+</ul>
+<h4 id="properties">Properties</h4>
+<h3 id="skgardenmondrianmondriantreeregressor">skgarden.mondrian.MondrianTreeRegressor</h3>
+<p>A Mondrian tree regressor.</p>
+<p>The splits in a mondrian tree regressor differ from the standard regression
+tree in the following ways.</p>
+<p>At fit time:
+    - Splits are done independently of the labels.
+    - The candidate feature is drawn with a probability proportional to the
+      feature range.
+    - The candidate threshold is drawn from a uniform distribution
+      with the bounds equal to the bounds of the candidate feature.
+    - The time of split is also stored which is proportional to the
+      inverse of the size of the bounding-box.</p>
+<p>At prediction time:
+    - Every node in the path from the root to the leaf is given a weight
+      while making predictions.
+    - At each node, the probability of an unseen sample splitting from that
+      node is calculated. The farther the sample is away from the bounding
+      box, the more probable that it will split away.
+    - For every node, the probability that an unseen sample has not split
+      before reaching that node and the probability that it will split away
+      at that particular node are multiplied to give a weight.</p>
+<p><em>Parameters</em></p>
+<ul>
+<li>
+<p><code>max_depth</code> (int or None, optional (default=None))</p>
+<p>The maximum depth of the tree. If None, then nodes are expanded until
+all leaves are pure or until all leaves contain less than
+min_samples_split samples.</p>
+</li>
+<li>
+<p><code>min_samples_split</code> (int, float, optional (default=2))</p>
+<p>The minimum number of samples required to split an internal node:</p>
+<ul>
+<li>If int, then consider <code>min_samples_split</code> as the minimum number.</li>
+<li>If float, then <code>min_samples_split</code> is a percentage and
+  <code>ceil(min_samples_split * n_samples)</code> are the minimum
+  number of samples for each split.</li>
+</ul>
+</li>
+<li>
+<p><code>random_state</code> (int, RandomState instance or None, optional (default=None))</p>
+<p>If int, random_state is the seed used by the random number generator;
+If RandomState instance, random_state is the random number generator;
+If None, the random number generator is the RandomState instance used
+by <code>np.random</code>.</p>
+</li>
+</ul>
+<h4 id="methods_1">Methods</h4>
+<h5 id="mondriantreeregressorapplyx-check_inputtrue">MondrianTreeRegressor.apply(X, check_input=True)</h5>
+<p>Returns the index of the leaf that each sample is predicted as.</p>
+<p>.. versionadded:: 0.17</p>
+<p><em>Parameters</em></p>
+<ul>
+<li>
+<p><code>X</code> (array_like or sparse matrix, shape = [n_samples, n_features])</p>
+<p>The input samples. Internally, it will be converted to
+<code>dtype=np.float32</code> and if a sparse matrix is provided
+to a sparse <code>csr_matrix</code>.</p>
+</li>
+<li>
+<p><code>check_input</code> (boolean, (default=True))</p>
+<p>Allow to bypass several input checking.
+Don't use this parameter unless you know what you do.</p>
+</li>
+</ul>
+<p><em>Returns</em></p>
+<ul>
+<li>
+<p><code>X_leaves</code> (array_like, shape = [n_samples,])</p>
+<p>For each datapoint x in X, return the index of the leaf x
+ends up in. Leaves are numbered within
+<code>[0; self.tree_.node_count)</code>, possibly with gaps in the
+numbering.</p>
+</li>
+</ul>
+<h5 id="mondriantreeregressordecision_pathx-check_inputtrue">MondrianTreeRegressor.decision_path(X, check_input=True)</h5>
+<p>Return the decision path in the tree</p>
+<p>.. versionadded:: 0.18</p>
+<p><em>Parameters</em></p>
+<ul>
+<li>
+<p><code>X</code> (array_like or sparse matrix, shape = [n_samples, n_features])</p>
+<p>The input samples. Internally, it will be converted to
+<code>dtype=np.float32</code> and if a sparse matrix is provided
+to a sparse <code>csr_matrix</code>.</p>
+</li>
+<li>
+<p><code>check_input</code> (boolean, (default=True))</p>
+<p>Allow to bypass several input checking.
+Don't use this parameter unless you know what you do.</p>
+</li>
+</ul>
+<p><em>Returns</em></p>
+<ul>
+<li>
+<p><code>indicator</code> (sparse csr array, shape = [n_samples, n_nodes])</p>
+<p>Return a node indicator matrix where non zero elements
+indicates that the samples goes through the nodes.</p>
+</li>
+</ul>
+<h5 id="mondriantreeregressorfitx-y-sample_weightnone-check_inputtrue-x_idx_sortednone">MondrianTreeRegressor.fit(X, y, sample_weight=None, check_input=True, X_idx_sorted=None)</h5>
+<p>Build a mondrian tree regressor from the training set (X, y).</p>
+<p><em>Parameters</em></p>
+<ul>
+<li>
+<p><code>X</code> (array-like or sparse matrix, shape = [n_samples, n_features])</p>
+<p>The training input samples. Internally, it will be converted to
+<code>dtype=np.float32</code> and if a sparse matrix is provided
+to a sparse <code>csc_matrix</code>.</p>
+</li>
+<li>
+<p><code>y</code> (array-like, shape = [n_samples] or [n_samples, n_outputs])</p>
+<p>The target values (real numbers). Use <code>dtype=np.float64</code> and
+<code>order='C'</code> for maximum efficiency.</p>
+</li>
+<li>
+<p><code>check_input</code> (boolean, (default=True))</p>
+<p>Allow to bypass several input checking.
+Don't use this parameter unless you know what you do.</p>
+</li>
+<li>
+<p><code>X_idx_sorted</code> (array-like, shape = [n_samples, n_features], optional)</p>
+<p>The indexes of the sorted training input samples. If many tree
+are grown on the same dataset, this allows the ordering to be
+cached between trees. If None, the data will be sorted here.
+Don't use this parameter unless you know what to do.</p>
+</li>
+</ul>
+<p><em>Returns</em></p>
+<ul>
+<li>
+<p><code>self</code> (object)</p>
+<p>Returns self.</p>
+</li>
+</ul>
+<h5 id="mondriantreeregressorpredictx-check_inputtrue-return_stdfalse">MondrianTreeRegressor.predict(X, check_input=True, return_std=False)</h5>
+<p>Predict class or regression value for X.</p>
+<p>For a classification model, the predicted class for each sample in X is
+returned. For a regression model, the predicted value based on X is
+returned.</p>
+<p><em>Parameters</em></p>
+<ul>
+<li>
+<p><code>X</code> (array-like or sparse matrix of shape = [n_samples, n_features])</p>
+<p>The input samples. Internally, it will be converted to
+<code>dtype=np.float32</code> and if a sparse matrix is provided
+to a sparse <code>csr_matrix</code>.</p>
+</li>
+<li>
+<p><code>check_input</code> (boolean, (default=True))</p>
+<p>Allow to bypass several input checking.
+Don't use this parameter unless you know what you do.</p>
+</li>
+<li>
+<p><code>return_std</code> (boolean, (default=True))</p>
+<p>Whether or not to return the standard deviation.</p>
+</li>
+</ul>
+<p><em>Returns</em></p>
+<ul>
+<li>
+<p><code>y</code> (array of shape = [n_samples] or [n_samples, n_outputs])</p>
+<p>The predicted classes, or the predict values.</p>
+</li>
+</ul>
+<h5 id="mondriantreeregressorweighted_decision_pathx-check_inputtrue">MondrianTreeRegressor.weighted_decision_path(X, check_input=True)</h5>
+<p>Returns the weighted decision path in the tree.</p>
+<p>Each non-zero value in the decision path determines the weight
+of that particular node in making predictions.</p>
+<p><em>Parameters</em></p>
+<ul>
+<li>
+<p><code>X</code> (array_like or sparse matrix, shape = [n_samples, n_features])</p>
+<p>The input samples. Internally, it will be converted to
+<code>dtype=np.float32</code> and if a sparse matrix is provided
+to a sparse <code>csr_matrix</code>.</p>
+</li>
+<li>
+<p><code>check_input</code> (boolean, (default=True))</p>
+<p>Allow to bypass several input checking.
+Don't use this parameter unless you know what you do.</p>
+</li>
+</ul>
+<p><em>Returns</em></p>
+<ul>
+<li>
+<p><code>indicator</code> (sparse csr array, shape = [n_samples, n_nodes])</p>
+<p>Return a node indicator matrix where non zero elements
+indicate the weight of that particular node in making predictions.</p>
+</li>
+</ul>
+<h4 id="properties_1">Properties</h4>
+<h5 id="mondriantreeregressorfeature_importances_">MondrianTreeRegressor.feature_importances_</h5>
+<p>Return the feature importances.
+The importance of a feature is computed as the (normalized) total
+reduction of the criterion brought by that feature.
+It is also known as the Gini importance.
+<em>Returns</em></p>
+<ul>
+<li><code>feature_importances_</code> (array, shape = [n_features])</li>
+</ul>
+<h2 id="skgardenquantile_1">skgarden.quantile</h2>
+<h3 id="skgardenquantiledecisiontreequantileregressor">skgarden.quantile.DecisionTreeQuantileRegressor</h3>
+<p>A decision tree regressor that provides quantile estimates.</p>
+<p><em>Parameters</em></p>
+<ul>
+<li>
+<p><code>criterion</code> (string, optional (default="mse"))</p>
+<p>The function to measure the quality of a split. Supported criteria
+are "mse" for the mean squared error, which is equal to variance
+reduction as feature selection criterion, and "mae" for the mean
+absolute error.
+.. versionadded:: 0.18
+   Mean Absolute Error (MAE) criterion.</p>
+</li>
+<li>
+<p><code>splitter</code> (string, optional (default="best"))</p>
+<p>The strategy used to choose the split at each node. Supported
+strategies are "best" to choose the best split and "random" to choose
+the best random split.</p>
+</li>
+<li>
+<p><code>max_features</code> (int, float, string or None, optional (default=None))</p>
+<p>The number of features to consider when looking for the best split:
+- If int, then consider <code>max_features</code> features at each split.
+- If float, then <code>max_features</code> is a percentage and
+  <code>int(max_features * n_features)</code> features are considered at each
+  split.
+- If "auto", then <code>max_features=n_features</code>.
+- If "sqrt", then <code>max_features=sqrt(n_features)</code>.
+- If "log2", then <code>max_features=log2(n_features)</code>.
+- If None, then <code>max_features=n_features</code>.
+Note: the search for a split does not stop until at least one
+valid partition of the node samples is found, even if it requires to
+effectively inspect more than <code>max_features</code> features.</p>
+</li>
+<li>
+<p><code>max_depth</code> (int or None, optional (default=None))</p>
+<p>The maximum depth of the tree. If None, then nodes are expanded until
+all leaves are pure or until all leaves contain less than
+min_samples_split samples.</p>
+</li>
+<li>
+<p><code>min_samples_split</code> (int, float, optional (default=2))</p>
+<p>The minimum number of samples required to split an internal node:
+- If int, then consider <code>min_samples_split</code> as the minimum number.
+- If float, then <code>min_samples_split</code> is a percentage and
+  <code>ceil(min_samples_split * n_samples)</code> are the minimum
+  number of samples for each split.
+.. versionchanged:: 0.18
+   Added float values for percentages.</p>
+</li>
+<li>
+<p><code>min_samples_leaf</code> (int, float, optional (default=1))</p>
+<p>The minimum number of samples required to be at a leaf node:
+- If int, then consider <code>min_samples_leaf</code> as the minimum number.
+- If float, then <code>min_samples_leaf</code> is a percentage and
+  <code>ceil(min_samples_leaf * n_samples)</code> are the minimum
+  number of samples for each node.
+.. versionchanged:: 0.18
+   Added float values for percentages.</p>
+</li>
+<li>
+<p><code>min_weight_fraction_leaf</code> (float, optional (default=0.))</p>
+<p>The minimum weighted fraction of the sum total of weights (of all
+the input samples) required to be at a leaf node. Samples have
+equal weight when sample_weight is not provided.</p>
+</li>
+<li>
+<p><code>max_leaf_nodes</code> (int or None, optional (default=None))</p>
+<p>Grow a tree with <code>max_leaf_nodes</code> in best-first fashion.
+Best nodes are defined as relative reduction in impurity.
+If None then unlimited number of leaf nodes.</p>
+</li>
+<li>
+<p><code>random_state</code> (int, RandomState instance or None, optional (default=None))</p>
+<p>If int, random_state is the seed used by the random number generator;
+If RandomState instance, random_state is the random number generator;
+If None, the random number generator is the RandomState instance used
+by <code>np.random</code>.</p>
+</li>
+<li>
+<p><code>presort</code> (bool, optional (default=False))</p>
+<p>Whether to presort the data to speed up the finding of best splits in
+fitting. For the default settings of a decision tree on large
+datasets, setting this to true may slow down the training process.
+When using either a smaller dataset or a restricted depth, this may
+speed up the training.</p>
+</li>
+</ul>
+<p><em>Attributes</em></p>
+<ul>
+<li>
+<p><code>feature_importances_</code> (array of shape = [n_features])</p>
+<p>The feature importances.
+The higher, the more important the feature.
+The importance of a feature is computed as the
+(normalized) total reduction of the criterion brought
+by that feature. It is also known as the Gini importance [4]_.</p>
+</li>
+<li>
+<p><code>max_features_</code> (int,)</p>
+<p>The inferred value of max_features.</p>
+</li>
+<li>
+<p><code>n_features_</code> (int)</p>
+<p>The number of features when <code>fit</code> is performed.</p>
+</li>
+<li>
+<p><code>n_outputs_</code> (int)</p>
+<p>The number of outputs when <code>fit</code> is performed.</p>
+</li>
+<li>
+<p><code>tree_</code> (Tree object)</p>
+<p>The underlying Tree object.</p>
+</li>
+<li>
+<p><code>y_train_</code> (array-like)</p>
+<p>Train target values.</p>
+</li>
+<li>
+<p><code>y_train_leaves_</code> (array-like.)</p>
+<p>Cache the leaf nodes that each training sample falls into.
+y_train_leaves_[i] is the leaf that y_train[i] ends up at.</p>
+</li>
+</ul>
+<h4 id="methods_2">Methods</h4>
+<h5 id="decisiontreequantileregressorpredictx-quantilenone-check_inputfalse">DecisionTreeQuantileRegressor.predict(X, quantile=None, check_input=False)</h5>
+<p>Predict regression value for X.</p>
+<p><em>Parameters</em></p>
+<ul>
+<li>
+<p><code>X</code> (array-like or sparse matrix of shape = [n_samples, n_features])</p>
+<p>The input samples. Internally, it will be converted to
+<code>dtype=np.float32</code> and if a sparse matrix is provided
+to a sparse <code>csr_matrix</code>.</p>
+</li>
+<li>
+<p><code>quantile</code> (int, optional)</p>
+<p>Value ranging from 0 to 100. By default, the mean is returned.</p>
+</li>
+<li>
+<p><code>check_input</code> (boolean, (default=True))</p>
+<p>Allow to bypass several input checking.
+Don't use this parameter unless you know what you do.</p>
+</li>
+</ul>
+<p><em>Returns</em></p>
+<ul>
+<li>
+<p><code>y</code> (array of shape = [n_samples])</p>
+<p>If quantile is set to None, then return E(Y | X). Else return
+y such that F(Y=y | x) = quantile.</p>
+</li>
+</ul>
+<h4 id="properties_2">Properties</h4>
+<h3 id="skgardenquantileextratreequantileregressor">skgarden.quantile.ExtraTreeQuantileRegressor</h3>
+<p>An extremely randomized tree regressor.</p>
+<p>Extra-trees differ from classic decision trees in the way they are built.
+When looking for the best split to separate the samples of a node into two
+groups, random splits are drawn for each of the <code>max_features</code> randomly
+selected features and the best split among those is chosen. When
+<code>max_features</code> is set 1, this amounts to building a totally random
+decision tree.</p>
+<p>Warning: Extra-trees should only be used within ensemble methods.</p>
+<p>Read more in the :ref:<code>User Guide &lt;tree&gt;</code>.</p>
+<p><em>See also</em>
+ExtraTreeClassifier, ExtraTreesClassifier, ExtraTreesRegressor</p>
+<p><em>References</em></p>
+<p>.. [1] P. Geurts, D. Ernst., and L. Wehenkel, "Extremely randomized trees",
+       Machine Learning, 63(1), 3-42, 2006.</p>
+<h4 id="methods_3">Methods</h4>
+<h5 id="extratreequantileregressorpredictx-quantilenone-check_inputfalse">ExtraTreeQuantileRegressor.predict(X, quantile=None, check_input=False)</h5>
+<p>Predict regression value for X.</p>
+<p><em>Parameters</em></p>
+<ul>
+<li>
+<p><code>X</code> (array-like or sparse matrix of shape = [n_samples, n_features])</p>
+<p>The input samples. Internally, it will be converted to
+<code>dtype=np.float32</code> and if a sparse matrix is provided
+to a sparse <code>csr_matrix</code>.</p>
+</li>
+<li>
+<p><code>quantile</code> (int, optional)</p>
+<p>Value ranging from 0 to 100. By default, the mean is returned.</p>
+</li>
+<li>
+<p><code>check_input</code> (boolean, (default=True))</p>
+<p>Allow to bypass several input checking.
+Don't use this parameter unless you know what you do.</p>
+</li>
+</ul>
+<p><em>Returns</em></p>
+<ul>
+<li>
+<p><code>y</code> (array of shape = [n_samples])</p>
+<p>If quantile is set to None, then return E(Y | X). Else return
+y such that F(Y=y | x) = quantile.</p>
+</li>
+</ul>
+<h4 id="properties_3">Properties</h4>
+<h3 id="skgardenquantileextratreesquantileregressor">skgarden.quantile.ExtraTreesQuantileRegressor</h3>
+<p>An extra-trees regressor that provides quantile estimates.</p>
+<p>This class implements a meta estimator that fits a number of
+randomized decision trees (a.k.a. extra-trees) on various sub-samples
+of the dataset and use averaging to improve the predictive accuracy
+and control over-fitting.</p>
+<p><em>Parameters</em></p>
+<ul>
+<li>
+<p><code>n_estimators</code> (integer, optional (default=10))</p>
+<p>The number of trees in the forest.</p>
+</li>
+<li>
+<p><code>criterion</code> (string, optional (default="mse"))</p>
+<p>The function to measure the quality of a split. Supported criteria
+are "mse" for the mean squared error, which is equal to variance
+reduction as feature selection criterion, and "mae" for the mean
+absolute error.
+.. versionadded:: 0.18
+   Mean Absolute Error (MAE) criterion.</p>
+</li>
+<li>
+<p><code>max_features</code> (int, float, string or None, optional (default="auto"))</p>
+<p>The number of features to consider when looking for the best split:
+- If int, then consider <code>max_features</code> features at each split.
+- If float, then <code>max_features</code> is a percentage and
+  <code>int(max_features * n_features)</code> features are considered at each
+  split.
+- If "auto", then <code>max_features=n_features</code>.
+- If "sqrt", then <code>max_features=sqrt(n_features)</code>.
+- If "log2", then <code>max_features=log2(n_features)</code>.
+- If None, then <code>max_features=n_features</code>.
+Note: the search for a split does not stop until at least one
+valid partition of the node samples is found, even if it requires to
+effectively inspect more than <code>max_features</code> features.</p>
+</li>
+<li>
+<p><code>max_depth</code> (integer or None, optional (default=None))</p>
+<p>The maximum depth of the tree. If None, then nodes are expanded until
+all leaves are pure or until all leaves contain less than
+min_samples_split samples.</p>
+</li>
+<li>
+<p><code>min_samples_split</code> (int, float, optional (default=2))</p>
+<p>The minimum number of samples required to split an internal node:
+- If int, then consider <code>min_samples_split</code> as the minimum number.
+- If float, then <code>min_samples_split</code> is a percentage and
+  <code>ceil(min_samples_split * n_samples)</code> are the minimum
+  number of samples for each split.
+.. versionchanged:: 0.18
+   Added float values for percentages.</p>
+</li>
+<li>
+<p><code>min_samples_leaf</code> (int, float, optional (default=1))</p>
+<p>The minimum number of samples required to be at a leaf node:
+- If int, then consider <code>min_samples_leaf</code> as the minimum number.
+- If float, then <code>min_samples_leaf</code> is a percentage and
+  <code>ceil(min_samples_leaf * n_samples)</code> are the minimum
+  number of samples for each node.
+.. versionchanged:: 0.18
+   Added float values for percentages.</p>
+</li>
+<li>
+<p><code>min_weight_fraction_leaf</code> (float, optional (default=0.))</p>
+<p>The minimum weighted fraction of the sum total of weights (of all
+the input samples) required to be at a leaf node. Samples have
+equal weight when sample_weight is not provided.</p>
+</li>
+<li>
+<p><code>max_leaf_nodes</code> (int or None, optional (default=None))</p>
+<p>Grow trees with <code>max_leaf_nodes</code> in best-first fashion.
+Best nodes are defined as relative reduction in impurity.
+If None then unlimited number of leaf nodes.</p>
+</li>
+<li>
+<p><code>bootstrap</code> (boolean, optional (default=False))</p>
+<p>Whether bootstrap samples are used when building trees.</p>
+</li>
+<li>
+<p><code>oob_score</code> (bool, optional (default=False))</p>
+<p>Whether to use out-of-bag samples to estimate the R^2 on unseen data.</p>
+</li>
+<li>
+<p><code>n_jobs</code> (integer, optional (default=1))</p>
+<p>The number of jobs to run in parallel for both <code>fit</code> and <code>predict</code>.
+If -1, then the number of jobs is set to the number of cores.</p>
+</li>
+<li>
+<p><code>random_state</code> (int, RandomState instance or None, optional (default=None))</p>
+<p>If int, random_state is the seed used by the random number generator;
+If RandomState instance, random_state is the random number generator;
+If None, the random number generator is the RandomState instance used
+by <code>np.random</code>.</p>
+</li>
+<li>
+<p><code>verbose</code> (int, optional (default=0))</p>
+<p>Controls the verbosity of the tree building process.</p>
+</li>
+<li>
+<p><code>warm_start</code> (bool, optional (default=False))</p>
+<p>When set to <code>True</code>, reuse the solution of the previous call to fit
+and add more estimators to the ensemble, otherwise, just fit a whole
+new forest.</p>
+</li>
+</ul>
+<p><em>Attributes</em></p>
+<ul>
+<li>
+<p><code>estimators_</code> (list of ExtraTreeQuantileRegressor)</p>
+<p>The collection of fitted sub-estimators.</p>
+</li>
+<li>
+<p><code>feature_importances_</code> (array of shape = [n_features])</p>
+<p>The feature importances (the higher, the more important the feature).</p>
+</li>
+<li>
+<p><code>n_features_</code> (int)</p>
+<p>The number of features when <code>fit</code> is performed.</p>
+</li>
+<li>
+<p><code>n_outputs_</code> (int)</p>
+<p>The number of outputs when <code>fit</code> is performed.</p>
+</li>
+<li>
+<p><code>oob_score_</code> (float)</p>
+<p>Score of the training dataset obtained using an out-of-bag estimate.</p>
+</li>
+<li>
+<p><code>oob_prediction_</code> (array of shape = [n_samples])</p>
+<p>Prediction computed with out-of-bag estimate on the training set.</p>
+</li>
+<li>
+<p><code>y_train_</code> (array-like, shape=(n_samples,))</p>
+<p>Cache the target values at fit time.</p>
+</li>
+<li>
+<p><code>y_weights_</code> (array-like, shape=(n_estimators, n_samples))</p>
+<p>y_weights_[i, j] is the weight given to sample <code>j` while
+estimator</code>i`` is fit. If bootstrap is set to True, this
+reduces to a 2-D array of ones.</p>
+</li>
+<li>
+<p><code>y_train_leaves_</code> (array-like, shape=(n_estimators, n_samples))</p>
+<p>y_train_leaves_[i, j] provides the leaf node that y_train_[i]
+ends up when estimator j is fit. If y_train_[i] is given
+a weight of zero when estimator j is fit, then the value is -1.</p>
+</li>
+</ul>
+<p><em>References</em>
+.. [1] Nicolai Meinshausen, Quantile Regression Forests
+    http://www.jmlr.org/papers/volume7/meinshausen06a/meinshausen06a.pdf</p>
+<h4 id="methods_4">Methods</h4>
+<h5 id="extratreesquantileregressorfitx-y">ExtraTreesQuantileRegressor.fit(X, y)</h5>
+<p>Build a forest from the training set (X, y).</p>
+<p><em>Parameters</em></p>
+<ul>
+<li>
+<p><code>X</code> (array-like or sparse matrix, shape = [n_samples, n_features])</p>
+<p>The training input samples. Internally, it will be converted to
+<code>dtype=np.float32</code> and if a sparse matrix is provided
+to a sparse <code>csc_matrix</code>.</p>
+</li>
+<li>
+<p><code>y</code> (array-like, shape = [n_samples] or [n_samples, n_outputs])</p>
+<p>The target values (class labels) as integers or strings.</p>
+</li>
+<li>
+<p><code>sample_weight</code> (array-like, shape = [n_samples] or None)</p>
+<p>Sample weights. If None, then samples are equally weighted. Splits
+that would create child nodes with net zero or negative weight are
+ignored while searching for a split in each node. Splits are also
+ignored if they would result in any single class carrying a
+negative weight in either child node.</p>
+</li>
+<li>
+<p><code>check_input</code> (boolean, (default=True))</p>
+<p>Allow to bypass several input checking.
+Don't use this parameter unless you know what you do.</p>
+</li>
+<li>
+<p><code>X_idx_sorted</code> (array-like, shape = [n_samples, n_features], optional)</p>
+<p>The indexes of the sorted training input samples. If many tree
+are grown on the same dataset, this allows the ordering to be
+cached between trees. If None, the data will be sorted here.
+Don't use this parameter unless you know what to do.</p>
+</li>
+</ul>
+<p><em>Returns</em></p>
+<ul>
+<li>
+<p><code>self</code> (object)</p>
+<p>Returns self.</p>
+</li>
+</ul>
+<h5 id="extratreesquantileregressorpredictx-quantilenone">ExtraTreesQuantileRegressor.predict(X, quantile=None)</h5>
+<p>Predict regression value for X.</p>
+<p><em>Parameters</em></p>
+<ul>
+<li>
+<p><code>X</code> (array-like or sparse matrix of shape = [n_samples, n_features])</p>
+<p>The input samples. Internally, it will be converted to
+<code>dtype=np.float32</code> and if a sparse matrix is provided
+to a sparse <code>csr_matrix</code>.</p>
+</li>
+<li>
+<p><code>quantile</code> (int, optional)</p>
+<p>Value ranging from 0 to 100. By default, the mean is returned.</p>
+</li>
+<li>
+<p><code>check_input</code> (boolean, (default=True))</p>
+<p>Allow to bypass several input checking.
+Don't use this parameter unless you know what you do.</p>
+</li>
+</ul>
+<p><em>Returns</em></p>
+<ul>
+<li>
+<p><code>y</code> (array of shape = [n_samples])</p>
+<p>If quantile is set to None, then return E(Y | X). Else return
+y such that F(Y=y | x) = quantile.</p>
+</li>
+</ul>
+<h4 id="properties_4">Properties</h4>
+<h3 id="skgardenquantilerandomforestquantileregressor">skgarden.quantile.RandomForestQuantileRegressor</h3>
+<p>A random forest regressor that provides quantile estimates.</p>
+<p>A random forest is a meta estimator that fits a number of classifying
+decision trees on various sub-samples of the dataset and use averaging
+to improve the predictive accuracy and control over-fitting.
+The sub-sample size is always the same as the original
+input sample size but the samples are drawn with replacement if
+<code>bootstrap=True</code> (default).</p>
+<p><em>Parameters</em></p>
+<ul>
+<li>
+<p><code>n_estimators</code> (integer, optional (default=10))</p>
+<p>The number of trees in the forest.</p>
+</li>
+<li>
+<p><code>criterion</code> (string, optional (default="mse"))</p>
+<p>The function to measure the quality of a split. Supported criteria
+are "mse" for the mean squared error, which is equal to variance
+reduction as feature selection criterion, and "mae" for the mean
+absolute error.
+.. versionadded:: 0.18
+   Mean Absolute Error (MAE) criterion.</p>
+</li>
+<li>
+<p><code>max_features</code> (int, float, string or None, optional (default="auto"))</p>
+<p>The number of features to consider when looking for the best split:
+- If int, then consider <code>max_features</code> features at each split.
+- If float, then <code>max_features</code> is a percentage and
+  <code>int(max_features * n_features)</code> features are considered at each
+  split.
+- If "auto", then <code>max_features=n_features</code>.
+- If "sqrt", then <code>max_features=sqrt(n_features)</code>.
+- If "log2", then <code>max_features=log2(n_features)</code>.
+- If None, then <code>max_features=n_features</code>.
+Note: the search for a split does not stop until at least one
+valid partition of the node samples is found, even if it requires to
+effectively inspect more than <code>max_features</code> features.</p>
+</li>
+<li>
+<p><code>max_depth</code> (integer or None, optional (default=None))</p>
+<p>The maximum depth of the tree. If None, then nodes are expanded until
+all leaves are pure or until all leaves contain less than
+min_samples_split samples.</p>
+</li>
+<li>
+<p><code>min_samples_split</code> (int, float, optional (default=2))</p>
+<p>The minimum number of samples required to split an internal node:
+- If int, then consider <code>min_samples_split</code> as the minimum number.
+- If float, then <code>min_samples_split</code> is a percentage and
+  <code>ceil(min_samples_split * n_samples)</code> are the minimum
+  number of samples for each split.
+.. versionchanged:: 0.18
+   Added float values for percentages.</p>
+</li>
+<li>
+<p><code>min_samples_leaf</code> (int, float, optional (default=1))</p>
+<p>The minimum number of samples required to be at a leaf node:
+- If int, then consider <code>min_samples_leaf</code> as the minimum number.
+- If float, then <code>min_samples_leaf</code> is a percentage and
+  <code>ceil(min_samples_leaf * n_samples)</code> are the minimum
+  number of samples for each node.
+.. versionchanged:: 0.18
+   Added float values for percentages.</p>
+</li>
+<li>
+<p><code>min_weight_fraction_leaf</code> (float, optional (default=0.))</p>
+<p>The minimum weighted fraction of the sum total of weights (of all
+the input samples) required to be at a leaf node. Samples have
+equal weight when sample_weight is not provided.</p>
+</li>
+<li>
+<p><code>max_leaf_nodes</code> (int or None, optional (default=None))</p>
+<p>Grow trees with <code>max_leaf_nodes</code> in best-first fashion.
+Best nodes are defined as relative reduction in impurity.
+If None then unlimited number of leaf nodes.</p>
+</li>
+<li>
+<p><code>bootstrap</code> (boolean, optional (default=True))</p>
+<p>Whether bootstrap samples are used when building trees.</p>
+</li>
+<li>
+<p><code>oob_score</code> (bool, optional (default=False))</p>
+<p>whether to use out-of-bag samples to estimate
+the R^2 on unseen data.</p>
+</li>
+<li>
+<p><code>n_jobs</code> (integer, optional (default=1))</p>
+<p>The number of jobs to run in parallel for both <code>fit</code> and <code>predict</code>.
+If -1, then the number of jobs is set to the number of cores.</p>
+</li>
+<li>
+<p><code>random_state</code> (int, RandomState instance or None, optional (default=None))</p>
+<p>If int, random_state is the seed used by the random number generator;
+If RandomState instance, random_state is the random number generator;
+If None, the random number generator is the RandomState instance used
+by <code>np.random</code>.</p>
+</li>
+<li>
+<p><code>verbose</code> (int, optional (default=0))</p>
+<p>Controls the verbosity of the tree building process.</p>
+</li>
+<li>
+<p><code>warm_start</code> (bool, optional (default=False))</p>
+<p>When set to <code>True</code>, reuse the solution of the previous call to fit
+and add more estimators to the ensemble, otherwise, just fit a whole
+new forest.</p>
+</li>
+</ul>
+<p><em>Attributes</em></p>
+<ul>
+<li>
+<p><code>estimators_</code> (list of DecisionTreeQuantileRegressor)</p>
+<p>The collection of fitted sub-estimators.</p>
+</li>
+<li>
+<p><code>feature_importances_</code> (array of shape = [n_features])</p>
+<p>The feature importances (the higher, the more important the feature).</p>
+</li>
+<li>
+<p><code>n_features_</code> (int)</p>
+<p>The number of features when <code>fit</code> is performed.</p>
+</li>
+<li>
+<p><code>n_outputs_</code> (int)</p>
+<p>The number of outputs when <code>fit</code> is performed.</p>
+</li>
+<li>
+<p><code>oob_score_</code> (float)</p>
+<p>Score of the training dataset obtained using an out-of-bag estimate.</p>
+</li>
+<li>
+<p><code>oob_prediction_</code> (array of shape = [n_samples])</p>
+<p>Prediction computed with out-of-bag estimate on the training set.</p>
+</li>
+<li>
+<p><code>y_train_</code> (array-like, shape=(n_samples,))</p>
+<p>Cache the target values at fit time.</p>
+</li>
+<li>
+<p><code>y_weights_</code> (array-like, shape=(n_estimators, n_samples))</p>
+<p>y_weights_[i, j] is the weight given to sample <code>j` while
+estimator</code>i`` is fit. If bootstrap is set to True, this
+reduces to a 2-D array of ones.</p>
+</li>
+<li>
+<p><code>y_train_leaves_</code> (array-like, shape=(n_estimators, n_samples))</p>
+<p>y_train_leaves_[i, j] provides the leaf node that y_train_[i]
+ends up when estimator j is fit. If y_train_[i] is given
+a weight of zero when estimator j is fit, then the value is -1.</p>
+</li>
+</ul>
+<p><em>References</em>
+.. [1] Nicolai Meinshausen, Quantile Regression Forests
+    http://www.jmlr.org/papers/volume7/meinshausen06a/meinshausen06a.pdf</p>
+<h4 id="methods_5">Methods</h4>
+<h5 id="randomforestquantileregressorfitx-y">RandomForestQuantileRegressor.fit(X, y)</h5>
+<p>Build a forest from the training set (X, y).</p>
+<p><em>Parameters</em></p>
+<ul>
+<li>
+<p><code>X</code> (array-like or sparse matrix, shape = [n_samples, n_features])</p>
+<p>The training input samples. Internally, it will be converted to
+<code>dtype=np.float32</code> and if a sparse matrix is provided
+to a sparse <code>csc_matrix</code>.</p>
+</li>
+<li>
+<p><code>y</code> (array-like, shape = [n_samples] or [n_samples, n_outputs])</p>
+<p>The target values (class labels) as integers or strings.</p>
+</li>
+<li>
+<p><code>sample_weight</code> (array-like, shape = [n_samples] or None)</p>
+<p>Sample weights. If None, then samples are equally weighted. Splits
+that would create child nodes with net zero or negative weight are
+ignored while searching for a split in each node. Splits are also
+ignored if they would result in any single class carrying a
+negative weight in either child node.</p>
+</li>
+<li>
+<p><code>check_input</code> (boolean, (default=True))</p>
+<p>Allow to bypass several input checking.
+Don't use this parameter unless you know what you do.</p>
+</li>
+<li>
+<p><code>X_idx_sorted</code> (array-like, shape = [n_samples, n_features], optional)</p>
+<p>The indexes of the sorted training input samples. If many tree
+are grown on the same dataset, this allows the ordering to be
+cached between trees. If None, the data will be sorted here.
+Don't use this parameter unless you know what to do.</p>
+</li>
+</ul>
+<p><em>Returns</em></p>
+<ul>
+<li>
+<p><code>self</code> (object)</p>
+<p>Returns self.</p>
+</li>
+</ul>
+<h5 id="randomforestquantileregressorpredictx-quantilenone">RandomForestQuantileRegressor.predict(X, quantile=None)</h5>
+<p>Predict regression value for X.</p>
+<p><em>Parameters</em></p>
+<ul>
+<li>
+<p><code>X</code> (array-like or sparse matrix of shape = [n_samples, n_features])</p>
+<p>The input samples. Internally, it will be converted to
+<code>dtype=np.float32</code> and if a sparse matrix is provided
+to a sparse <code>csr_matrix</code>.</p>
+</li>
+<li>
+<p><code>quantile</code> (int, optional)</p>
+<p>Value ranging from 0 to 100. By default, the mean is returned.</p>
+</li>
+<li>
+<p><code>check_input</code> (boolean, (default=True))</p>
+<p>Allow to bypass several input checking.
+Don't use this parameter unless you know what you do.</p>
+</li>
+</ul>
+<p><em>Returns</em></p>
+<ul>
+<li>
+<p><code>y</code> (array of shape = [n_samples])</p>
+<p>If quantile is set to None, then return E(Y | X). Else return
+y such that F(Y=y | x) = quantile.</p>
+</li>
+</ul>
+<h4 id="properties_5">Properties</h4>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../trees/about/" class="btn btn-neutral float-right" title="Trees">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href=".." class="btn btn-neutral" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+    
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href=".." style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../trees/about/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script src="../js/theme.js"></script>
+
+</body>
+</html>
