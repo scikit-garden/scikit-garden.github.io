@@ -4,7 +4,7 @@
     
     <url>
      <loc>/</loc>
-     <lastmod>2017-04-25</lastmod>
+     <lastmod>2017-04-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -12,23 +12,7 @@
     
     <url>
      <loc>/api/</loc>
-     <lastmod>2017-04-25</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-    
-
-    
-    <url>
-     <loc>/trees/about/</loc>
-     <lastmod>2017-04-25</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-    
-
-    
-    <url>
-     <loc>/ensembles/about/</loc>
-     <lastmod>2017-04-25</lastmod>
+     <lastmod>2017-04-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
