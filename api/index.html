@@ -189,12 +189,13 @@ single class carrying a negative weight in either child node.</p>
 <h5 id="mondrianforestregressorpredictx-return_stdfalse">MondrianForestRegressor.predict(X, return_std=False)</h5>
 <p>Returns the predicted mean and std.</p>
 <p>The prediction is a GMM drawn from
-\sum_{i=1}^T w_i N(m_i, \sigma_i) where w_i = 1 / T.</p>
-<p>The mean E[Y | X] reduces to 1 / T * \sum_{i=1}^T m_i</p>
-<p>The variance Var[Y | X] is given by
-    = E[Y<strong>2 | X] - E[Y | X]</strong>2
-    = (1 / T) * \sum_{i=1}^T E[Y<strong>2_i| X] - E[Y| X]</strong>2
-    = (1 / T) * \sum_{i=1}^T (Var[Y_i | X] + E[Y_i | X]<strong>2) - E[Y| X]</strong>2</p>
+<script type="math/tex">\sum_{i=1}^T w_i N(m_i, \sigma_i)</script> where <script type="math/tex">w_i = {1 \over T}</script>.</p>
+<p>The mean <script type="math/tex">E[Y | X]</script> reduces to <script type="math/tex">{\sum_{i=1}^T m_i \over T}</script>
+</p>
+<p>The variance <script type="math/tex">Var[Y | X]</script> is given by <script type="math/tex; mode=display">Var[Y | X] = E[Y^2 | X] - E[Y | X]^2</script>
+<script type="math/tex; mode=display">=\frac{\sum_{i=1}^T E[Y^2_i| X]}{T} - E[Y | X]^2</script>
+<script type="math/tex; mode=display">= \frac{\sum_{i=1}^T (Var[Y_i | X] + E[Y_i | X]^2)}{T} - E[Y| X]^2</script>
+</p>
 <p><em>Parameters</em></p>
 <ul>
 <li>
@@ -1132,6 +1133,7 @@ y such that F(Y=y | x) = quantile.</p>
     </span>
 </div>
     <script src="../js/theme.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
 </body>
 </html>
