@@ -5,26 +5,26 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Documentation for scikit-garden">
   
-  <link rel="shortcut icon" href="./img/favicon.ico">
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
   <title>Home - Scikit-garden</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
 
-  <link rel="stylesheet" href="./css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="./css/theme_extra.css" type="text/css" />
-  <link rel="stylesheet" href="./css/highlight.css">
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../css/highlight.css">
   
   <script>
     // Current page data
     var mkdocs_page_name = "Home";
-    var mkdocs_page_input_path = "index.md";
-    var mkdocs_page_url = "/";
+    var mkdocs_page_input_path = "examples/index.md";
+    var mkdocs_page_url = "/examples/";
   </script>
   
-  <script src="./js/jquery-2.1.1.min.js"></script>
-  <script src="./js/modernizr-2.8.3.min.js"></script>
-  <script type="text/javascript" src="./js/highlight.pack.js"></script> 
+  <script src="../js/jquery-2.1.1.min.js"></script>
+  <script src="../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../js/highlight.pack.js"></script> 
   
 </head>
 
@@ -35,9 +35,9 @@
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
       <div class="wy-side-nav-search">
-        <a href="." class="icon icon-home"> Scikit-garden</a>
+        <a href=".." class="icon icon-home"> Scikit-garden</a>
         <div role="search">
-  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
   </form>
 </div>
@@ -47,39 +47,33 @@
 	<ul class="current">
 	  
           
-            <li class="toctree-l1 current">
+            <li class="toctree-l1">
 		
-    <a class="current" href=".">Home</a>
-    <ul class="subnav">
-            
-    <li class="toctree-l2"><a href="#scikit-garden">Scikit-garden</a></li>
-    
-        <ul>
-        
-            <li><a class="toctree-l3" href="#installation">Installation</a></li>
-        
-        </ul>
-    
-
-    </ul>
+    <a class="" href="..">Home</a>
 	    </li>
           
             <li class="toctree-l1">
 		
-    <a class="" href="api/">API Reference</a>
+    <a class="" href="../api/">API Reference</a>
 	    </li>
           
             <li class="toctree-l1">
 		
     <span class="caption-text">Examples</span>
     <ul class="subnav">
-                <li class="">
+                <li class=" current">
                     
-    <a class="" href="examples/">Home</a>
+    <a class="current" href="./">Home</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#scikit-garden-tutorials">Scikit-garden tutorials.</a></li>
+    
+
+    </ul>
                 </li>
                 <li class="">
                     
-    <a class="" href="examples/MondrianTreeRegressor/">Mondrian Tree Tutorial</a>
+    <a class="" href="MondrianTreeRegressor/">Mondrian Tree Tutorial</a>
                 </li>
     </ul>
 	    </li>
@@ -94,7 +88,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href=".">Scikit-garden</a>
+        <a href="..">Scikit-garden</a>
       </nav>
 
       
@@ -102,8 +96,12 @@
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href=".">Docs</a> &raquo;</li>
+    <li><a href="..">Docs</a> &raquo;</li>
     
+      
+        
+          <li>Examples &raquo;</li>
+        
       
     
     <li>Home</li>
@@ -116,26 +114,10 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="scikit-garden">Scikit-garden</h1>
-<p>Scikit-garden or skgarden (pronounced as skarden) is a garden for scikit-learn compatible trees.</p>
-<h2 id="installation">Installation</h2>
-<h3 id="dependencies">Dependencies</h3>
-<p>scikit-garden depends on NumPy, SciPy, scikit-learn and Cython. So make sure these dependencies are installed using pip</p>
-<pre><code>pip3 install numpy scipy scikit-learn cython
-</code></pre>
-
-<p>After that scikit-garden can be installed like any other package.</p>
-<pre><code>git clone https://github.com/scikit-garden/scikit-garden
-cd scikit-garden
-python3 setup.py install
-</code></pre>
-
-<p>and then you can do</p>
-<pre><code class="python">&gt;&gt;&gt; import skgarden
-</code></pre>
-
-<p>from anywhere outside the root directory.</p>
-<h3 id="available-models">Available models.</h3>
+                <h1 id="scikit-garden-tutorials">Scikit-garden tutorials.</h1>
+<ol>
+<li><a href="./examples/MondrianTreeRegressor_intuition">Intuition behind Mondrian trees</a></li>
+</ol>
               
             </div>
           </div>
@@ -143,8 +125,10 @@ python3 setup.py install
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="api/" class="btn btn-neutral float-right" title="API Reference">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="MondrianTreeRegressor/" class="btn btn-neutral float-right" title="Mondrian Tree Tutorial">Next <span class="icon icon-circle-arrow-right"></span></a>
       
+      
+        <a href="../api/" class="btn btn-neutral" title="API Reference"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -170,18 +154,15 @@ python3 setup.py install
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
+        <span><a href="../api/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
-        <span style="margin-left: 15px"><a href="api/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+        <span style="margin-left: 15px"><a href="MondrianTreeRegressor/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>
-    <script src="./js/theme.js"></script>
+    <script src="../js/theme.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
 </body>
 </html>
-
-<!--
-MkDocs version : 0.16.3
-Build Date UTC : 2017-05-05 15:38:20
--->

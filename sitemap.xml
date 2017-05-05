@@ -4,7 +4,7 @@
     
     <url>
      <loc>/</loc>
-     <lastmod>2017-05-03</lastmod>
+     <lastmod>2017-05-05</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -12,9 +12,25 @@
     
     <url>
      <loc>/api/</loc>
-     <lastmod>2017-05-03</lastmod>
+     <lastmod>2017-05-05</lastmod>
      <changefreq>daily</changefreq>
     </url>
+    
+
+    
+        
+    <url>
+     <loc>/examples/</loc>
+     <lastmod>2017-05-05</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/examples/MondrianTreeRegressor/</loc>
+     <lastmod>2017-05-05</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
     
 
 </urlset>

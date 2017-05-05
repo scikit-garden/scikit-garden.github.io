@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+  <title>Mondrian Tree Tutorial - Scikit-garden</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/highlight.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Mondrian Tree Tutorial";
+    var mkdocs_page_input_path = "examples/MondrianTreeRegressor.md";
+    var mkdocs_page_url = "/examples/MondrianTreeRegressor/";
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js"></script>
+  <script src="../../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> Scikit-garden</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../api/">API Reference</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Examples</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../">Home</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">Mondrian Tree Tutorial</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#intuition-behind-mondrian-trees">Intuition behind Mondrian Trees</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#a-decision-tree-regressor">A decision tree regressor</a></li>
+        
+            <li><a class="toctree-l4" href="#so-how-is-each-split-done">So how is each split done?</a></li>
+        
+            <li><a class="toctree-l4" href="#plotting-decision-boundaries-using-erts">Plotting decision boundaries using ERT's</a></li>
+        
+            <li><a class="toctree-l4" href="#mondrian-tree">Mondrian Tree</a></li>
+        
+            <li><a class="toctree-l4" href="#plotting-decision-boundaries-and-more-using-mondrian-trees">Plotting decision boundaries (and more) using Mondrian Trees</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">Scikit-garden</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Examples &raquo;</li>
+        
+      
+    
+    <li>Mondrian Tree Tutorial</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="intuition-behind-mondrian-trees">Intuition behind Mondrian Trees</h1>
+<p>This example provides intuition behind Mondrian Trees. In particular, the differences between existing decision tree algorithms and explanations of the tree construction and prediction will be highlighted.</p>
+<pre><code class="python">import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.tree import ExtraTreeRegressor
+from skgarden import MondrianTreeRegressor
+from itertools import cycle
+%matplotlib inline
+</code></pre>
+
+<h2 id="a-decision-tree-regressor">A decision tree regressor</h2>
+<p>A decision tree is one of the easier-to-understand machine learning algorithms. While training, the input training space <code>X</code> is recursively partitioned into a number of rectangular subspaces. While predicting the label of a new point, one determines the rectangular subspace that it falls into and outputs the label representative of that subspace. This is usually the mean of the labels for a regression problem.</p>
+<p>The rectangular subspaces are constructed in a greedy manner doing a binary partition at a time. Hence this can be determined by a split <code>S</code>, a (f, <script type="math/tex">\delta)</script> tuple where f is the feature index and <script type="math/tex">\delta</script> is the threshold across which to split.</p>
+<p>A point <code>x</code> for which <code>x[f]</code> is lesser than <script type="math/tex">\delta</script> is placed in the left subspace and vice versa.</p>
+<h2 id="so-how-is-each-split-done">So how is each split done?</h2>
+<p>The optimal split <script type="math/tex">S_{opt}</script> is determined by <script type="math/tex">(f_{opt}, \delta_{opt}</script>) that creates children such that the weighted decrease in impurity is maximum. Mathematically, this is the combination that maximizes, <script type="math/tex">C=N_{parent} Imp_{Parent} - N_{left} Imp_{left} - N_{right} Imp_{right}</script>, where <script type="math/tex">N_{parent}, N_{left}, N_{right}</script> are the number of samples in the parent, left and right subspaces.</p>
+<p>In a standard decision tree, <script type="math/tex">S_{opt}</script> is found out by searching though all possible combinations of feature indices and values in the training data and simply returning the combination that minimizes C as described above. That sounds pretty expensive!</p>
+<p>In an extremely randomized tree this is made much faster by the following procedure.</p>
+<ol>
+<li>The feature indices of the candidate splits are determined by drawing <code>max_features</code> at random.</li>
+<li>Then for each of these feature index, we select the split threshold by drawing uniformly between the bounds of that feature.</li>
+</ol>
+<p>When the set of candidate splits are obtained, as before we just return that split that minimizes <code>C</code>.</p>
+<h4 id="note">Note:</h4>
+<p>It is important to note that the actual reason is that while constructing an ensemble of trees, it makes sure that each tree constructed in an independent fashion. Decorrelating predictions in an ensemble is a key factor to achieve lower generalization error. For a highly unlikely corner case, if each tree in an ensemble is exactly the same, then there is no point constructing the ensemble.</p>
+<p>Let us now generate some toy data to play with it in the remainder of this example. Here toy data, meaning a set of ten points that lie on a sine curve.</p>
+<pre><code class="python">def generate_toy_data(n_points=10):
+    X_train = np.linspace(-np.pi, np.pi, n_points)
+    y_train = np.sin(X_train)
+    X_test = np.linspace(-6.0, 6.0, 100)
+    y_test = np.sin(X_test)
+    return np.expand_dims(X_train, axis=1), y_train, np.expand_dims(X_test, axis=1), y_test
+
+X_train, y_train, X_test, y_test = generate_toy_data()
+plt.plot(X_train.ravel(), y_train, &quot;ro&quot;)
+plt.show()
+</code></pre>
+
+<p><img alt="png" src="../../mondrian_tree/plot1.png" /></p>
+<h2 id="plotting-decision-boundaries-using-erts">Plotting decision boundaries using ERT's</h2>
+<p>Let us now use scikit-learn's <code>ExtraTreeRegressor</code> to train on the generated toy data, predict on some unseen data and plot decision boundaries in the 1-D space. Also, we set the <code>max_depth</code> parameter to 2, which means there can be a maximum of 4 decision boundaries in the 1-D space.</p>
+<pre><code class="python">def plot_1D_decision_boundaries(tree_reg, plt):
+    x_l, x_u = plt.xlim()
+    colors = cycle(&quot;bgrcmyk&quot;)
+    split_thresh = tree_reg.tree_.threshold
+    split_thresh = sorted(split_thresh[split_thresh != -2])
+    split_thresh = [x_l] + split_thresh + [x_u]
+    for s in split_thresh:
+        plt.axvline(s, color=&quot;r&quot;, linestyle=&quot;-&quot;)
+
+    for x_l, x_u in zip(split_thresh[1:], split_thresh[:-1]):
+        plt.fill_between((x_l, x_u), -1.5, 1.5, alpha=0.2, color=next(colors))
+
+etr = ExtraTreeRegressor(random_state=2, max_depth=2)
+etr.fit(X_train, y_train)
+y_pred = etr.predict(X_test)
+plt.plot(X_train.ravel(), y_train, &quot;ro&quot;)
+plt.plot(X_test.ravel(), y_pred)
+plt.ylim((-1.5, 1.5))
+plot_1D_decision_boundaries(etr, plt)
+plt.show()
+</code></pre>
+
+<p><img alt="png" src="../../mondrian_tree/plot2.png" /></p>
+<p>The blue line represents the mean prediction in every region of the decision space. So if a point lies between -6 and -3, we predict y to be 0.0 and so on.</p>
+<p>There are two things to notice.</p>
+<ol>
+<li>As we move away from the training data, the predicted mean remains constant which is determined by the decision split at the bounds of the space. But in reality, we are unsure about the target value to predict and would like to fall back on some prior mean.</li>
+<li>In an extremely randomized tree, this issue is not confined to subspaces at the edge of the training subspace. Even if the green subspace was not at the edge, we are unsure about the region from 4 to 6 since the train points are confined till 4.0</li>
+</ol>
+<p>The mondrian tree solves this problem in a very intelligent way.</p>
+<h2 id="mondrian-tree">Mondrian Tree</h2>
+<h3 id="train-mode">Train mode</h3>
+<p>The split tuple (f, <script type="math/tex">\delta)</script> is decided independently of the target or the decrease in impurity! Yes, that is right. When all the features are of same scale and are equally important, this is same as an extremely randomized tree with <code>max_features</code> set to 1.</p>
+<ol>
+<li>The split feature index <code>f</code> is drawn with a probability proportional to <code>u_b[f] - l_b[f]</code> where <code>u_b</code> and <code>l_b</code> and the upper and lower bounds of all the features.</li>
+<li>After fixing the feature index, the split threshold <script type="math/tex">\delta</script> is then drawn from a uniform distribution with limits <code>l_b</code>, <code>u_b</code>.</li>
+</ol>
+<p>The intuition being that a feature that has a huge difference between the bounds is likelier to be an "important" feature. Every subspace <code>j</code> in a mondrian tree also stores information about.</p>
+<ol>
+<li>The upper and lower bounds of all the features in that particular node or the bounding box as determined by the training data. For example, in the green subspace above it stores ((1.96, 3.0),)</li>
+<li>The time of split <script type="math/tex">\tau</script> which is drawn from an exponential with mean <script type="math/tex">\sum_{f=1}^D(u_b[f] - l_b[f])</script>. Smaller the value of tau, larger is the bounding box.</li>
+</ol>
+<h4 id="note_1">Note:</h4>
+<p>The time of split can be viewed as weighted depth. Imagine that edges between parent and child nodes are associated with a non-negative weight. The time of split at a node is the sum of the weights along the path from the root to the node. If weights are all 1, the time of split is the depth of the node.</p>
+<h3 id="prediction-mode">Prediction mode</h3>
+<p>From now on, we will use the terms node and subspace interchangeably. The subspace that a new point ends up in is the leaf, the entire training space is the root and every binary partition results in two nodes.</p>
+<p>Recall that for a decision tree, computing the prediction for a new point is fairly straightforward. Find the leaf node that a new point lands in and output the mean.</p>
+<p>The prediction step of a Mondrian Tree is a bit more complicated. It takes into account all the nodes in the path of a new point from the root to the leaf for making a prediction. This formulation allows us the flexibility to weigh the nodes on the basis of how sure/unsure we are about the prediction in that particular node.</p>
+<p>Mathematically, the distribution of <script type="math/tex">P(Y | X)</script> is given by</p>
+<p>
+<script type="math/tex">P(Y | X) = \sum_{j} w_j \mathcal{N} (m_j, v_j)</script>
+</p>
+<p>where the summation is across all the nodes in the path from the root to the leaf. The mean prediction becomes <script type="math/tex">\sum_{j} w_j m_j</script>
+</p>
+<h3 id="computing-the-weights">Computing the weights.</h3>
+<p>Assume <script type="math/tex">p_j(x)</script> denote the probability of a new point splitting away from a node. That is higher the probability, the farther away it is from the bounding box at that node.</p>
+<p>A point which is within the bounds at any node, the probability of separation should be zero. This means we can obtain a better estimate about the prediction from its child node.</p>
+<p>Also, the node at which the new point starts to split away is the node that we are most confident about. So this should be given a high weight.</p>
+<p>Formally, the weights are computed like this.</p>
+<p>If <code>j</code> is not a leaf:</p>
+<p>
+<script type="math/tex">w_j(x) = p_j(x) \prod_{k \in anc(j)} (1 - p_k(x))</script>
+</p>
+<p>If <code>j</code> is a leaf, to make the weights sum up to one.</p>
+<p>
+<script type="math/tex">w_j(x) = 1 - \sum_{k \in anc(j)} w_k(x)</script>
+</p>
+<p>
+<script type="math/tex">w_j</script> can be decomposed into two factors, <script type="math/tex">p_j</script>(x) and <script type="math/tex">\prod_{k \in anc(j)} (1 - p_k(x))</script>. The first one being the probability of splitting away at that particular node and the second one being the probability of not splitting away till it reaches that node. We can observe that for <script type="math/tex">x</script> that is completely within the bounds of a node, <script type="math/tex">w_j(x)</script> becomes zero and for a point where it starts branching off, <script type="math/tex">w_j(x) = p_j(x)</script>
+</p>
+<h3 id="computing-the-probability-of-separation">Computing the probability of separation.</h3>
+<p>We come to the final piece in the jigsaw puzzle, that is computing the probability of separation <script type="math/tex">p_j(x)</script> of each node. This is computed in the following way.</p>
+<ol>
+<li>
+<script type="math/tex">\Delta_{j} = \tau_{j} - \tau_{parent(j)}</script>
+</li>
+<li>
+<script type="math/tex">\eta_{j}(x) = \sum_{f}(\max(x[f] - u_{bj}[f], 0) + \max(0, l_{bj}[f] - x[f]))</script>
+</li>
+<li>
+<script type="math/tex">p_j(x) = 1 - e^{-\Delta_{j} \eta_{j}(x))}</script>
+</li>
+</ol>
+<p>Let us take some time to stare at these equations and understand what they mean.</p>
+<ol>
+<li>
+<script type="math/tex">p_j(x)</script> is high when <script type="math/tex">\eta_{j}(x)</script> is high. As <script type="math/tex">\eta_{j}(x)</script> approaches infinity, <script type="math/tex">p_j(x)</script> approaches zero. This means that when the point is far away from the bounding box of the node, the probability of separation becomes high.</li>
+<li>
+<script type="math/tex">p_j(x)</script> is high when <script type="math/tex">\Delta{j}</script> is high. This means when the bounding box of a node is small as compared to the bounding box of its parent, the probability of separation becomes high.</li>
+<li>For a point in the training data, <script type="math/tex">p_j(x)</script> becomes zero for all nodes other than the leaf since the point is within the bounding box at all nodes. The leaf then has a weightage of 1.0 and this reduces to a standard decision tree prediction.</li>
+<li>For a point far away from the training data, <script type="math/tex">p_{root}(x)</script> (and <script type="math/tex">w_{root}(x)</script>) approach one and hence the weights of the other nodes in the path from the root to the leaf approach zero. This means <script type="math/tex">P(Y | X) = \mathcal{N}(m, v)</script> where <script type="math/tex">m</script> and <script type="math/tex">v</script> are the empirical mean and variance of the training data.</li>
+</ol>
+<h2 id="plotting-decision-boundaries-and-more-using-mondrian-trees">Plotting decision boundaries (and more) using Mondrian Trees</h2>
+<h3 id="generate-data-fit-and-predict">Generate data, fit and predict</h3>
+<pre><code class="python">X_train, y_train, X_test, y_test = generate_toy_data()
+mtr = MondrianTreeRegressor(random_state=1, max_depth=2)
+mtr.fit(X_train, y_train)
+y_pred, y_std = mtr.predict(X_test, return_std=True)
+
+# This is a method that provides the weights given to each node while making predictions.
+weights = mtr.weighted_decision_path(X_test).toarray()
+</code></pre>
+
+<h3 id="function-to-plot-bounds-and-decision-boundaries-at-every-node">Function to plot bounds and decision boundaries at every node.</h3>
+<pre><code class="python">def plot_bounds_with_decision_boundaries(axis, X_tr, y_tr, X_te, y_te, tree_reg,
+                                         depth=0):
+    if depth &gt; tree_reg.max_depth:
+        raise ValueError(&quot;Expected depth &lt;= %d, got %d&quot; %
+                         (tree_reg.max_depth, depth))
+    colors = cycle(&quot;bgrcmyk&quot;)
+    axis.set_ylim((-1.5, 1.5))
+    axis.plot(X_tr.ravel(), y_tr, &quot;ro&quot;)
+    tree = tree_reg.tree_
+    x_l, x_u = axis.get_xlim()
+    if depth == 0:
+        axis.axvline(np.min(X_tr))
+        axis.axvline(np.max(X_tr))
+        axis.fill_between((x_l, x_u), -1.5, 1.5, alpha=0.2, color=next(colors))
+    else:
+        # All nodes upto a particular depth.
+        all_nodes = [0]
+        parent_nodes = [0]
+        curr_depth = 1
+        while curr_depth &lt; depth:
+            curr_nodes = []
+            while parent_nodes:
+                nid = parent_nodes.pop()
+                curr_nodes.append(tree.children_left[nid])
+                curr_nodes.append(tree.children_right[nid])
+            parent_nodes = curr_nodes
+            all_nodes.extend(parent_nodes)
+            curr_depth += 1
+        thresholds = sorted([tree.threshold[node] for node in all_nodes])
+        thresh = [x_l] + thresholds + [x_u]
+        for start, end in zip(thresh[:-1], thresh[1:]):
+            axis.fill_between((start, end), -1.5, 1.5, alpha=0.2, color=next(colors))
+            X_1D = X_tr.ravel()
+            X_1D = X_1D[np.logical_and(X_1D &gt; start, X_1D &lt; end)]
+            axis.axvline(np.min(X_1D))
+            axis.axvline(np.max(X_1D))
+</code></pre>
+
+<h3 id="function-to-plot-the-weights-at-each-node">Function to plot the weights at each node.</h3>
+<pre><code class="python">def plot_weights(axis, x_test, weights, tree_reg, depth=0):
+    tree = tree_reg.tree_
+    x_l, x_u = axis.get_xlim()
+    axis.set_ylim((0.0, 1.0))
+    axis.set_title(&quot;weights at depth %d&quot; % (depth))
+
+    if depth == 0:
+        axis.fill_between(x_test, 0.0, weights[:, 0], color=&quot;blue&quot;)
+
+    else:
+        # Node ids at a particular depth.
+        parent_nodes = [0]
+        curr_depth = 0
+        while curr_depth &lt; depth:
+            curr_nodes = []
+            while parent_nodes:
+                nid = parent_nodes.pop()
+                curr_nodes.append(tree.children_left[nid])
+                curr_nodes.append(tree.children_right[nid])
+            parent_nodes = curr_nodes
+            curr_depth += 1
+
+        weights = np.max(weights[:, parent_nodes], axis=1)
+        axis.fill_between(x_test, 0.0, weights, color=&quot;blue&quot;)
+</code></pre>
+
+<h3 id="plot-all-the-things">Plot all the things!!!</h3>
+<pre><code class="python">fig, axes = plt.subplots(3, 2, sharex=True)
+fig.set_size_inches(18.5, 10.5)
+for ax1, ax2 in axes:
+    ax1.set_xlim((-6.0, 6.0))
+    ax2.set_xlim((-6.0, 6.0))
+plot_weights(axes[0][0], X_test.ravel(), weights, mtr, depth=0)
+plot_weights(axes[1][0], X_test.ravel(), weights, mtr, depth=1)
+plot_weights(axes[2][0], X_test.ravel(), weights, mtr, depth=2)
+plot_bounds_with_decision_boundaries(
+    axes[0][1], X_train, y_train, X_test, y_test, mtr)
+plot_bounds_with_decision_boundaries(
+    axes[1][1], X_train, y_train, X_test, y_test, mtr, depth=1)
+plot_bounds_with_decision_boundaries(
+    axes[2][1], X_train, y_train, X_test, y_test, mtr, depth=2)
+</code></pre>
+
+<p><img alt="png" src="../../mondrian_tree/plot3.png" /></p>
+<h3 id="interpretation">Interpretation</h3>
+<p>Let us interpret the plots from top to bottom.</p>
+<ol>
+<li>
+<p>Depth zero: root</p>
+<ul>
+<li>Weights are zero within the bounding box.</li>
+<li>Weights start to increase as we move away from the bounding box, if we move far enough they will become one.</li>
+</ul>
+</li>
+<li>
+<p>Depth one</p>
+<ul>
+<li>Bounding box of left child is smaller than that of the right. Hence the time of split of the left bounding box   is larger which makes the probability of separation higher and the weights are larger.</li>
+<li>The small spike in the middle is because of the thin strip between both the bounding boxes. The probability of
+  separation here is non-zero and hence the weights are non-zero</li>
+</ul>
+</li>
+<li>
+<p>Leaf</p>
+<ul>
+<li>The weights here are just so that the total weights sum up to one.</li>
+</ul>
+</li>
+</ol>
+<h3 id="conclusion">Conclusion</h3>
+<p>In conclusion, the mondrian tree regressor unlike standard decision tree implementations does not limit itself to
+the leaf in making predictions. It takes into account the entire path from the root to the leaf and weighs it according to the distance from the bounding box in that node. This has some interesting properties such as falling back to the prior mean and variance for points far away from the training data.</p>
+<h3 id="references">References:</h3>
+<ol>
+<li>Decision Trees and Forests: A Probabilistic Perspective, Balaji Lakshminarayanan
+ <a href="http://www.gatsby.ucl.ac.uk/~balaji/balaji-phd-thesis.pdf">http://www.gatsby.ucl.ac.uk/~balaji/balaji-phd-thesis.pdf</a></li>
+<li>scikit-learn documentation
+<a href="http://scikit-learn.org/">http://scikit-learn.org/</a></li>
+<li>Understanding Random Forests, Gilles Louppe
+<a href="https://arxiv.org/abs/1407.7502">https://arxiv.org/abs/1407.7502</a></li>
+</ol>
+<h3 id="acknowledgements">Acknowledgements</h3>
+<p>This tutorial mainly arises from discussions with Gilles Louppe and Balaji Lakshminarayanan for which I am hugely grateful.</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="../" class="btn btn-neutral" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+    
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+    </span>
+</div>
+    <script src="../../js/theme.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+</body>
+</html>
