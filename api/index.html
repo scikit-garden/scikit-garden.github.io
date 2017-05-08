@@ -125,6 +125,7 @@
 <h3 id="skgardenmondrian"><a href="#skgardenmondrian">skgarden.mondrian</a></h3>
 <ul>
 <li><a href="#skgardenmondrianmondrianforestregressor">skgarden.mondrian.MondrianForestRegressor</a></li>
+<li><a href="#skgardenmondrianmondriantreeclassifier">skgarden.mondrian.MondrianTreeClassifier</a></li>
 <li><a href="#skgardenmondrianmondriantreeregressor">skgarden.mondrian.MondrianTreeRegressor</a></li>
 </ul>
 <h3 id="skgardenquantile"><a href="#skgardenquantile">skgarden.quantile</a></h3>
@@ -258,8 +259,8 @@ provides the weighted_decision_path of estimator i</p>
 </li>
 </ul>
 <h4 id="properties">Properties</h4>
-<h3 id="skgardenmondrianmondriantreeregressor">skgarden.mondrian.MondrianTreeRegressor</h3>
-<p>A Mondrian tree regressor.</p>
+<h3 id="skgardenmondrianmondriantreeclassifier">skgarden.mondrian.MondrianTreeClassifier</h3>
+<p>A Mondrian tree.</p>
 <p>The splits in a mondrian tree regressor differ from the standard regression
 tree in the following ways.</p>
 <p>At fit time:
@@ -306,6 +307,195 @@ by <code>np.random</code>.</p>
 </li>
 </ul>
 <h4 id="methods_1">Methods</h4>
+<h5 id="mondriantreeclassifierapplyx-check_inputtrue">MondrianTreeClassifier.apply(X, check_input=True)</h5>
+<p>Returns the index of the leaf that each sample is predicted as.</p>
+<p>.. versionadded:: 0.17</p>
+<p><em>Parameters</em></p>
+<ul>
+<li>
+<p><code>X</code> (array_like or sparse matrix, shape = [n_samples, n_features])</p>
+<p>The input samples. Internally, it will be converted to
+<code>dtype=np.float32</code> and if a sparse matrix is provided
+to a sparse <code>csr_matrix</code>.</p>
+</li>
+<li>
+<p><code>check_input</code> (boolean, (default=True))</p>
+<p>Allow to bypass several input checking.
+Don't use this parameter unless you know what you do.</p>
+</li>
+</ul>
+<p><em>Returns</em></p>
+<ul>
+<li>
+<p><code>X_leaves</code> (array_like, shape = [n_samples,])</p>
+<p>For each datapoint x in X, return the index of the leaf x
+ends up in. Leaves are numbered within
+<code>[0; self.tree_.node_count)</code>, possibly with gaps in the
+numbering.</p>
+</li>
+</ul>
+<h5 id="mondriantreeclassifierdecision_pathx-check_inputtrue">MondrianTreeClassifier.decision_path(X, check_input=True)</h5>
+<p>Return the decision path in the tree</p>
+<p>.. versionadded:: 0.18</p>
+<p><em>Parameters</em></p>
+<ul>
+<li>
+<p><code>X</code> (array_like or sparse matrix, shape = [n_samples, n_features])</p>
+<p>The input samples. Internally, it will be converted to
+<code>dtype=np.float32</code> and if a sparse matrix is provided
+to a sparse <code>csr_matrix</code>.</p>
+</li>
+<li>
+<p><code>check_input</code> (boolean, (default=True))</p>
+<p>Allow to bypass several input checking.
+Don't use this parameter unless you know what you do.</p>
+</li>
+</ul>
+<p><em>Returns</em></p>
+<ul>
+<li>
+<p><code>indicator</code> (sparse csr array, shape = [n_samples, n_nodes])</p>
+<p>Return a node indicator matrix where non zero elements
+indicates that the samples goes through the nodes.</p>
+</li>
+</ul>
+<h5 id="mondriantreeclassifierfitx-y-sample_weightnone-check_inputtrue-x_idx_sortednone">MondrianTreeClassifier.fit(X, y, sample_weight=None, check_input=True, X_idx_sorted=None)</h5>
+<h5 id="mondriantreeclassifierpredictx-check_inputtrue-return_stdfalse">MondrianTreeClassifier.predict(X, check_input=True, return_std=False)</h5>
+<p>Predict class or regression value for X.</p>
+<p>For a classification model, the predicted class for each sample in X is
+returned. For a regression model, the predicted value based on X is
+returned.</p>
+<p><em>Parameters</em></p>
+<ul>
+<li>
+<p><code>X</code> (array-like or sparse matrix of shape = [n_samples, n_features])</p>
+<p>The input samples. Internally, it will be converted to
+<code>dtype=np.float32</code> and if a sparse matrix is provided
+to a sparse <code>csr_matrix</code>.</p>
+</li>
+<li>
+<p><code>check_input</code> (boolean, (default=True))</p>
+<p>Allow to bypass several input checking.
+Don't use this parameter unless you know what you do.</p>
+</li>
+<li>
+<p><code>return_std</code> (boolean, (default=True))</p>
+<p>Whether or not to return the standard deviation.</p>
+</li>
+</ul>
+<p><em>Returns</em></p>
+<ul>
+<li>
+<p><code>y</code> (array of shape = [n_samples] or [n_samples, n_outputs])</p>
+<p>The predicted classes, or the predict values.</p>
+</li>
+</ul>
+<h5 id="mondriantreeclassifierpredict_probax-check_inputtrue">MondrianTreeClassifier.predict_proba(X, check_input=True)</h5>
+<p>Predicts the probability of each class label given X.</p>
+<p><em>Parameters</em></p>
+<ul>
+<li>
+<p><code>X</code> (array-like, shape = [n_samples, n_features])</p>
+<p>The input samples. Internally, it will be converted to
+<code>dtype=np.float32</code>.</p>
+</li>
+<li>
+<p><code>check_input</code> (boolean, (default=True))</p>
+<p>Allow to bypass several input checking.
+Don't use this parameter unless you know what you do.</p>
+</li>
+</ul>
+<p><em>Returns</em></p>
+<ul>
+<li>
+<p><code>y_prob</code> (array of shape = [n_samples, n_classes])</p>
+<p>Prediceted probabilities for each class.</p>
+</li>
+</ul>
+<h5 id="mondriantreeclassifierweighted_decision_pathx-check_inputtrue">MondrianTreeClassifier.weighted_decision_path(X, check_input=True)</h5>
+<p>Returns the weighted decision path in the tree.</p>
+<p>Each non-zero value in the decision path determines the weight
+of that particular node in making predictions.</p>
+<p><em>Parameters</em></p>
+<ul>
+<li>
+<p><code>X</code> (array_like or sparse matrix, shape = [n_samples, n_features])</p>
+<p>The input samples. Internally, it will be converted to
+<code>dtype=np.float32</code> and if a sparse matrix is provided
+to a sparse <code>csr_matrix</code>.</p>
+</li>
+<li>
+<p><code>check_input</code> (boolean, (default=True))</p>
+<p>Allow to bypass several input checking.
+Don't use this parameter unless you know what you do.</p>
+</li>
+</ul>
+<p><em>Returns</em></p>
+<ul>
+<li>
+<p><code>indicator</code> (sparse csr array, shape = [n_samples, n_nodes])</p>
+<p>Return a node indicator matrix where non zero elements
+indicate the weight of that particular node in making predictions.</p>
+</li>
+</ul>
+<h4 id="properties_1">Properties</h4>
+<h5 id="mondriantreeclassifierfeature_importances_">MondrianTreeClassifier.feature_importances_</h5>
+<p>Return the feature importances.
+The importance of a feature is computed as the (normalized) total
+reduction of the criterion brought by that feature.
+It is also known as the Gini importance.
+<em>Returns</em></p>
+<ul>
+<li><code>feature_importances_</code> (array, shape = [n_features])</li>
+</ul>
+<h3 id="skgardenmondrianmondriantreeregressor">skgarden.mondrian.MondrianTreeRegressor</h3>
+<p>A Mondrian tree.</p>
+<p>The splits in a mondrian tree regressor differ from the standard regression
+tree in the following ways.</p>
+<p>At fit time:
+    - Splits are done independently of the labels.
+    - The candidate feature is drawn with a probability proportional to the
+      feature range.
+    - The candidate threshold is drawn from a uniform distribution
+      with the bounds equal to the bounds of the candidate feature.
+    - The time of split is also stored which is proportional to the
+      inverse of the size of the bounding-box.</p>
+<p>At prediction time:
+    - Every node in the path from the root to the leaf is given a weight
+      while making predictions.
+    - At each node, the probability of an unseen sample splitting from that
+      node is calculated. The farther the sample is away from the bounding
+      box, the more probable that it will split away.
+    - For every node, the probability that an unseen sample has not split
+      before reaching that node and the probability that it will split away
+      at that particular node are multiplied to give a weight.</p>
+<p><em>Parameters</em></p>
+<ul>
+<li>
+<p><code>max_depth</code> (int or None, optional (default=None))</p>
+<p>The maximum depth of the tree. If None, then nodes are expanded until
+all leaves are pure or until all leaves contain less than
+min_samples_split samples.</p>
+</li>
+<li>
+<p><code>min_samples_split</code> (int, float, optional (default=2))</p>
+<p>The minimum number of samples required to split an internal node:</p>
+<ul>
+<li>If int, then consider <code>min_samples_split</code> as the minimum number.</li>
+<li>If float, then <code>min_samples_split</code> is a percentage and
+  <code>ceil(min_samples_split * n_samples)</code> are the minimum
+  number of samples for each split.</li>
+</ul>
+</li>
+<li>
+<p><code>random_state</code> (int, RandomState instance or None, optional (default=None))</p>
+<p>If int, random_state is the seed used by the random number generator;
+If RandomState instance, random_state is the random number generator;
+If None, the random number generator is the RandomState instance used
+by <code>np.random</code>.</p>
+</li>
+</ul>
+<h4 id="methods_2">Methods</h4>
 <h5 id="mondriantreeregressorapplyx-check_inputtrue">MondrianTreeRegressor.apply(X, check_input=True)</h5>
 <p>Returns the index of the leaf that each sample is predicted as.</p>
 <p>.. versionadded:: 0.17</p>
@@ -359,40 +549,6 @@ indicates that the samples goes through the nodes.</p>
 </li>
 </ul>
 <h5 id="mondriantreeregressorfitx-y-sample_weightnone-check_inputtrue-x_idx_sortednone">MondrianTreeRegressor.fit(X, y, sample_weight=None, check_input=True, X_idx_sorted=None)</h5>
-<p>Build a mondrian tree regressor from the training set (X, y).</p>
-<p><em>Parameters</em></p>
-<ul>
-<li>
-<p><code>X</code> (array-like or sparse matrix, shape = [n_samples, n_features])</p>
-<p>The training input samples. Internally, it will be converted to
-<code>dtype=np.float32</code> and if a sparse matrix is provided
-to a sparse <code>csc_matrix</code>.</p>
-</li>
-<li>
-<p><code>y</code> (array-like, shape = [n_samples] or [n_samples, n_outputs])</p>
-<p>The target values (real numbers). Use <code>dtype=np.float64</code> and
-<code>order='C'</code> for maximum efficiency.</p>
-</li>
-<li>
-<p><code>check_input</code> (boolean, (default=True))</p>
-<p>Allow to bypass several input checking.
-Don't use this parameter unless you know what you do.</p>
-</li>
-<li>
-<p><code>X_idx_sorted</code> (array-like, shape = [n_samples, n_features], optional)</p>
-<p>The indexes of the sorted training input samples. If many tree
-are grown on the same dataset, this allows the ordering to be
-cached between trees. If None, the data will be sorted here.
-Don't use this parameter unless you know what to do.</p>
-</li>
-</ul>
-<p><em>Returns</em></p>
-<ul>
-<li>
-<p><code>self</code> (object)</p>
-<p>Returns self.</p>
-</li>
-</ul>
 <h5 id="mondriantreeregressorpredictx-check_inputtrue-return_stdfalse">MondrianTreeRegressor.predict(X, check_input=True, return_std=False)</h5>
 <p>Predict class or regression value for X.</p>
 <p>For a classification model, the predicted class for each sample in X is
@@ -449,7 +605,7 @@ Don't use this parameter unless you know what you do.</p>
 indicate the weight of that particular node in making predictions.</p>
 </li>
 </ul>
-<h4 id="properties_1">Properties</h4>
+<h4 id="properties_2">Properties</h4>
 <h5 id="mondriantreeregressorfeature_importances_">MondrianTreeRegressor.feature_importances_</h5>
 <p>Return the feature importances.
 The importance of a feature is computed as the (normalized) total
@@ -584,7 +740,7 @@ by that feature. It is also known as the Gini importance [4]_.</p>
 y_train_leaves_[i] is the leaf that y_train[i] ends up at.</p>
 </li>
 </ul>
-<h4 id="methods_2">Methods</h4>
+<h4 id="methods_3">Methods</h4>
 <h5 id="decisiontreequantileregressorpredictx-quantilenone-check_inputfalse">DecisionTreeQuantileRegressor.predict(X, quantile=None, check_input=False)</h5>
 <p>Predict regression value for X.</p>
 <p><em>Parameters</em></p>
@@ -613,7 +769,7 @@ Don't use this parameter unless you know what you do.</p>
 y such that F(Y=y | x) = quantile.</p>
 </li>
 </ul>
-<h4 id="properties_2">Properties</h4>
+<h4 id="properties_3">Properties</h4>
 <h3 id="skgardenquantileextratreequantileregressor">skgarden.quantile.ExtraTreeQuantileRegressor</h3>
 <p>An extremely randomized tree regressor.</p>
 <p>Extra-trees differ from classic decision trees in the way they are built.
@@ -629,7 +785,7 @@ ExtraTreeClassifier, ExtraTreesClassifier, ExtraTreesRegressor</p>
 <p><em>References</em></p>
 <p>.. [1] P. Geurts, D. Ernst., and L. Wehenkel, "Extremely randomized trees",
        Machine Learning, 63(1), 3-42, 2006.</p>
-<h4 id="methods_3">Methods</h4>
+<h4 id="methods_4">Methods</h4>
 <h5 id="extratreequantileregressorpredictx-quantilenone-check_inputfalse">ExtraTreeQuantileRegressor.predict(X, quantile=None, check_input=False)</h5>
 <p>Predict regression value for X.</p>
 <p><em>Parameters</em></p>
@@ -658,7 +814,7 @@ Don't use this parameter unless you know what you do.</p>
 y such that F(Y=y | x) = quantile.</p>
 </li>
 </ul>
-<h4 id="properties_3">Properties</h4>
+<h4 id="properties_4">Properties</h4>
 <h3 id="skgardenquantileextratreesquantileregressor">skgarden.quantile.ExtraTreesQuantileRegressor</h3>
 <p>An extra-trees regressor that provides quantile estimates.</p>
 <p>This class implements a meta estimator that fits a number of
@@ -810,7 +966,7 @@ a weight of zero when estimator j is fit, then the value is -1.</p>
 <p><em>References</em>
 .. [1] Nicolai Meinshausen, Quantile Regression Forests
     http://www.jmlr.org/papers/volume7/meinshausen06a/meinshausen06a.pdf</p>
-<h4 id="methods_4">Methods</h4>
+<h4 id="methods_5">Methods</h4>
 <h5 id="extratreesquantileregressorfitx-y">ExtraTreesQuantileRegressor.fit(X, y)</h5>
 <p>Build a forest from the training set (X, y).</p>
 <p><em>Parameters</em></p>
@@ -881,7 +1037,7 @@ Don't use this parameter unless you know what you do.</p>
 y such that F(Y=y | x) = quantile.</p>
 </li>
 </ul>
-<h4 id="properties_4">Properties</h4>
+<h4 id="properties_5">Properties</h4>
 <h3 id="skgardenquantilerandomforestquantileregressor">skgarden.quantile.RandomForestQuantileRegressor</h3>
 <p>A random forest regressor that provides quantile estimates.</p>
 <p>A random forest is a meta estimator that fits a number of classifying
@@ -1036,7 +1192,7 @@ a weight of zero when estimator j is fit, then the value is -1.</p>
 <p><em>References</em>
 .. [1] Nicolai Meinshausen, Quantile Regression Forests
     http://www.jmlr.org/papers/volume7/meinshausen06a/meinshausen06a.pdf</p>
-<h4 id="methods_5">Methods</h4>
+<h4 id="methods_6">Methods</h4>
 <h5 id="randomforestquantileregressorfitx-y">RandomForestQuantileRegressor.fit(X, y)</h5>
 <p>Build a forest from the training set (X, y).</p>
 <p><em>Parameters</em></p>
@@ -1107,7 +1263,7 @@ Don't use this parameter unless you know what you do.</p>
 y such that F(Y=y | x) = quantile.</p>
 </li>
 </ul>
-<h4 id="properties_5">Properties</h4>
+<h4 id="properties_6">Properties</h4>
               
             </div>
           </div>
