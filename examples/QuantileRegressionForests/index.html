@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+  <title>Quantile Regression Forests - Scikit-garden</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/highlight.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Quantile Regression Forests";
+    var mkdocs_page_input_path = "examples/QuantileRegressionForests.md";
+    var mkdocs_page_url = "/examples/QuantileRegressionForests/";
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js"></script>
+  <script src="../../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> Scikit-garden</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../api/">API Reference</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Examples</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../">Home</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../MondrianTreeRegressor/">Mondrian Tree Tutorial</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">Quantile Regression Forests</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#quantile-regression-forests">Quantile Regression Forests</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#introduction">Introduction</a></li>
+        
+            <li><a class="toctree-l4" href="#quantile-decision-trees">Quantile Decision Trees</a></li>
+        
+            <li><a class="toctree-l4" href="#quantile-regression-forests_1">Quantile Regression Forests.</a></li>
+        
+            <li><a class="toctree-l4" href="#example">Example</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">Scikit-garden</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Examples &raquo;</li>
+        
+      
+    
+    <li>Quantile Regression Forests</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="quantile-regression-forests">Quantile Regression Forests</h1>
+<h2 id="introduction">Introduction</h2>
+<p>Most estimators during prediction return <script type="math/tex">E(Y | X)</script>, which can be interpreted as the
+answer to the question, what is the expected value of your output given the input?</p>
+<p>Quantile methods, return <script type="math/tex">y</script> at <script type="math/tex">q</script> for which <script type="math/tex">F(Y=y|X) = q</script> where <script type="math/tex">q</script>
+is the percentile and <script type="math/tex">y</script> is the quantile. One quick
+use-case where this is useful is when there are a number of outliers which can influence
+the conditional mean. It is sometimes important to obtain estimates at different
+percentiles, (when grading on a curve is done for instance.)</p>
+<p>Note: Some machine learning models also return the entire distribution of <script type="math/tex">P(Y | X)</script>.
+such as <a href="https://scikit-optimize.github.io/learning/index.html#skopt.learning.GaussianProcessRegressor">Gaussian Processes</a> and
+<a href="https://scikit-garden.github.io/api/#skgardenmondrianmondrianforestregressor">Mondrian Forests</a>. A useful application is in
+<a href="https://scikit-optimize.github.io/notebooks/hyperparameter-optimization.html">hyperparameter optimisation</a>, where the conditional distribution <script type="math/tex">P(Y|X)</script> is
+necessary to balance the exploitation and exploration.</p>
+<h2 id="quantile-decision-trees">Quantile Decision Trees</h2>
+<p>It is fairly straightforward to extend a standard decision tree to provide
+predictions at percentiles. When a decision tree is fit, the trick is to
+store not only the sufficient statistics of the target at the leaf node
+such as the mean and variance but also all the target values in the leaf node.
+At prediction, these are used to compute empirical quantile estimates.</p>
+<p>Let's say, the parameter <code>min_samples_leaf</code> is set to 5, then for a new sample
+<code>X</code>, the 5 samples in the leaf are given equal weight while determining
+<script type="math/tex">Y | X</script> at different quantiles. If <code>min_samples_leaf</code> is set to 1, then
+the expectation equals the quantile at every percentile.</p>
+<p>Note: The empirical estimation of quantiles can be done in many ways.
+<code>scikit-garden</code>, relies on this <a href="https://en.wikipedia.org/wiki/Percentile#The_Weighted_Percentile_method">Weighted Percentile Method</a></p>
+<h2 id="quantile-regression-forests_1">Quantile Regression Forests.</h2>
+<p>The same approach can be extended to RandomForests. To estimate <script type="math/tex">F(Y=y|x) = q</script>
+each target value in <code>y_train</code> is given a weight. Formally, the weight given to
+<code>y_train[j]</code> while estimating the quantile is <script type="math/tex"> \frac{1}{T} \sum_{t=1}^{T} \frac{\mathbb{1}(y_j \in L(x))}{\sum_{i=1}^N \mathbb{1}(y_i \in L(x))}</script> where <script type="math/tex">L(x)</script> denotes the leaf
+that <script type="math/tex">x</script> falls into.</p>
+<p>Informally, what it means that for a new unknown sample, we first find the leaf that it
+falls into at each tree. Then for each <code>(X, y)</code> in the training data, a weight is
+given to <code>y</code> at each tree in the following manner.</p>
+<ol>
+<li>If it is in the same leaf as the new sample, then the weight is the fraction
+of samples in the same leaf.</li>
+<li>If not, then the weight is zero.</li>
+</ol>
+<p>These weights for each <code>y</code> are summed up across all trees and averaged.
+Now since we have an array of target values and an array of weights corresponding
+to these target values, we can use this to measure empirical quantile estimates.</p>
+<h2 id="example">Example</h2>
+<p>We will now use the <code>ExtraTreesQuantileRegressor</code> from scikit-garden to plot
+prediction intervals on the boston dataset.</p>
+<p>Import necessary things</p>
+<pre><code class="python">import matplotlib.pyplot as plt
+import numpy as np
+from sklearn.datasets import load_boston
+from sklearn.model_selection import train_test_split
+from sklearn.model_selection import KFold
+from skgarden import RandomForestQuantileRegressor
+</code></pre>
+
+<p>Load data and the necessary estimators. Note that <code>min_samples_split</code>
+is set to 10 and the cross-validation is 5-split.</p>
+<pre><code class="python">boston = load_boston()
+X, y = boston.data, boston.target
+kf = KFold(n_splits=5, random_state=0)
+rfqr = RandomForestQuantileRegressor(
+    random_state=0, min_samples_split=10, n_estimators=1000)
+</code></pre>
+
+<p>Store the quantiles at the 98.5th and 2.5th percentile.</p>
+<pre><code class="python">y_true_all = []
+lower = []
+upper = []
+
+for train_index, test_index in kf.split(X):
+    X_train, X_test, y_train, y_test = (
+        X[train_index], X[test_index], y[train_index], y[test_index])
+
+    rfqr.set_params(max_features=X_train.shape[1] // 3)
+    rfqr.fit(X_train, y_train)
+    y_true_all = np.concatenate((y_true_all, y_test))
+    upper = np.concatenate((upper, rfqr.predict(X_test, quantile=98.5)))
+    lower = np.concatenate((lower, rfqr.predict(X_test, quantile=2.5)))
+
+interval = upper - lower
+sort_ind = np.argsort(interval)
+y_true_all = y_true_all[sort_ind]
+upper = upper[sort_ind]
+lower = lower[sort_ind]
+mean = (upper + lower) / 2
+
+# Center such that the mean of the prediction interval is at 0.0
+y_true_all -= mean
+upper -= mean
+lower -= mean
+
+Plot the prediction intervals, the original target values. We see that most
+of the samples lie within the 95 p.c prediction interval.
+
+```python
+plt.plot(y_true_all, &quot;ro&quot;)
+plt.fill_between(
+    np.arange(len(upper)), lower, upper, alpha=0.2, color=&quot;r&quot;,
+    label=&quot;Pred. interval&quot;)
+plt.xlabel(&quot;Ordered samples.&quot;)
+plt.ylabel(&quot;Values and prediction intervals.&quot;)
+plt.xlim([0, 500])
+plt.show()
+</code></pre>
+
+<p><img alt="png" src="../../quantile/boston.png" /></p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="../MondrianTreeRegressor/" class="btn btn-neutral" title="Mondrian Tree Tutorial"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+    
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../MondrianTreeRegressor/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+    </span>
+</div>
+    <script src="../../js/theme.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+</body>
+</html>
