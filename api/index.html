@@ -63,6 +63,8 @@
         
             <li><a class="toctree-l3" href="#table-of-contents">Table of contents</a></li>
         
+            <li><a class="toctree-l3" href="#skgardenforest_1">skgarden.forest</a></li>
+        
             <li><a class="toctree-l3" href="#skgardenmondrian_1">skgarden.mondrian</a></li>
         
             <li><a class="toctree-l3" href="#skgardenquantile_1">skgarden.quantile</a></li>
@@ -126,6 +128,11 @@
               
                 <h1 id="api-documentation-of-skgarden">API documentation of skgarden</h1>
 <h2 id="table-of-contents">Table of contents</h2>
+<h3 id="skgardenforest"><a href="#skgardenforest">skgarden.forest</a></h3>
+<ul>
+<li><a href="#skgardenforestextratreesregressor">skgarden.forest.ExtraTreesRegressor</a></li>
+<li><a href="#skgardenforestrandomforestregressor">skgarden.forest.RandomForestRegressor</a></li>
+</ul>
 <h3 id="skgardenmondrian"><a href="#skgardenmondrian">skgarden.mondrian</a></h3>
 <ul>
 <li><a href="#skgardenmondrianmondrianforestclassifier">skgarden.mondrian.MondrianForestClassifier</a></li>
@@ -140,6 +147,363 @@
 <li><a href="#skgardenquantileextratreesquantileregressor">skgarden.quantile.ExtraTreesQuantileRegressor</a></li>
 <li><a href="#skgardenquantilerandomforestquantileregressor">skgarden.quantile.RandomForestQuantileRegressor</a></li>
 </ul>
+<h2 id="skgardenforest_1">skgarden.forest</h2>
+<h3 id="skgardenforestextratreesregressor">skgarden.forest.ExtraTreesRegressor</h3>
+<p>ExtraTreesRegressor that supports conditional standard deviation.</p>
+<p><em>Parameters</em></p>
+<ul>
+<li>
+<p><code>n_estimators</code> (integer, optional (default=10))</p>
+<p>The number of trees in the forest.</p>
+</li>
+<li>
+<p><code>criterion</code> (string, optional (default="mse"))</p>
+<p>The function to measure the quality of a split. Supported criteria
+are "mse" for the mean squared error, which is equal to variance
+reduction as feature selection criterion, and "mae" for the mean
+absolute error.</p>
+</li>
+<li>
+<p><code>max_features</code> (int, float, string or None, optional (default="auto"))</p>
+<p>The number of features to consider when looking for the best split:
+- If int, then consider <code>max_features</code> features at each split.
+- If float, then <code>max_features</code> is a percentage and
+  <code>int(max_features * n_features)</code> features are considered at each
+  split.
+- If "auto", then <code>max_features=n_features</code>.
+- If "sqrt", then <code>max_features=sqrt(n_features)</code>.
+- If "log2", then <code>max_features=log2(n_features)</code>.
+- If None, then <code>max_features=n_features</code>.
+Note: the search for a split does not stop until at least one
+valid partition of the node samples is found, even if it requires to
+effectively inspect more than <code>max_features</code> features.</p>
+</li>
+<li>
+<p><code>max_depth</code> (integer or None, optional (default=None))</p>
+<p>The maximum depth of the tree. If None, then nodes are expanded until
+all leaves are pure or until all leaves contain less than
+min_samples_split samples.</p>
+</li>
+<li>
+<p><code>min_samples_split</code> (int, float, optional (default=2))</p>
+<p>The minimum number of samples required to split an internal node:
+- If int, then consider <code>min_samples_split</code> as the minimum number.
+- If float, then <code>min_samples_split</code> is a percentage and
+  <code>ceil(min_samples_split * n_samples)</code> are the minimum
+  number of samples for each split.</p>
+</li>
+<li>
+<p><code>min_samples_leaf</code> (int, float, optional (default=1))</p>
+<p>The minimum number of samples required to be at a leaf node:
+- If int, then consider <code>min_samples_leaf</code> as the minimum number.
+- If float, then <code>min_samples_leaf</code> is a percentage and
+  <code>ceil(min_samples_leaf * n_samples)</code> are the minimum
+  number of samples for each node.</p>
+</li>
+<li>
+<p><code>min_weight_fraction_leaf</code> (float, optional (default=0.))</p>
+<p>The minimum weighted fraction of the sum total of weights (of all
+the input samples) required to be at a leaf node. Samples have
+equal weight when sample_weight is not provided.</p>
+</li>
+<li>
+<p><code>max_leaf_nodes</code> (int or None, optional (default=None))</p>
+<p>Grow trees with <code>max_leaf_nodes</code> in best-first fashion.
+Best nodes are defined as relative reduction in impurity.
+If None then unlimited number of leaf nodes.</p>
+</li>
+<li>
+<p><code>min_impurity_decrease</code> (float, optional (default=0.))</p>
+<p>A node will be split if this split induces a decrease of the impurity
+greater than or equal to this value.
+The weighted impurity decrease equation is the following::
+    N_t / N * (impurity - N_t_R / N_t * right_impurity
+                        - N_t_L / N_t * left_impurity)
+where <code>N</code> is the total number of samples, <code>N_t</code> is the number of
+samples at the current node, <code>N_t_L</code> is the number of samples in the
+left child, and <code>N_t_R</code> is the number of samples in the right child.
+<code>N</code>, <code>N_t</code>, <code>N_t_R</code> and <code>N_t_L</code> all refer to the weighted sum,
+if <code>sample_weight</code> is passed.</p>
+</li>
+<li>
+<p><code>bootstrap</code> (boolean, optional (default=True))</p>
+<p>Whether bootstrap samples are used when building trees.</p>
+</li>
+<li>
+<p><code>oob_score</code> (bool, optional (default=False))</p>
+<p>whether to use out-of-bag samples to estimate
+the R^2 on unseen data.</p>
+</li>
+<li>
+<p><code>n_jobs</code> (integer, optional (default=1))</p>
+<p>The number of jobs to run in parallel for both <code>fit</code> and <code>predict</code>.
+If -1, then the number of jobs is set to the number of cores.</p>
+</li>
+<li>
+<p><code>random_state</code> (int, RandomState instance or None, optional (default=None))</p>
+<p>If int, random_state is the seed used by the random number generator;
+If RandomState instance, random_state is the random number generator;
+If None, the random number generator is the RandomState instance used
+by <code>np.random</code>.</p>
+</li>
+<li>
+<p><code>verbose</code> (int, optional (default=0))</p>
+<p>Controls the verbosity of the tree building process.</p>
+</li>
+<li>
+<p><code>warm_start</code> (bool, optional (default=False))</p>
+<p>When set to <code>True</code>, reuse the solution of the previous call to fit
+and add more estimators to the ensemble, otherwise, just fit a whole
+new forest.</p>
+</li>
+</ul>
+<p><em>Attributes</em></p>
+<ul>
+<li>
+<p><code>estimators_</code> (list of DecisionTreeRegressor)</p>
+<p>The collection of fitted sub-estimators.</p>
+</li>
+<li>
+<p><code>feature_importances_</code> (array of shape = [n_features])</p>
+<p>The feature importances (the higher, the more important the feature).</p>
+</li>
+<li>
+<p><code>n_features_</code> (int)</p>
+<p>The number of features when <code>fit</code> is performed.</p>
+</li>
+<li>
+<p><code>n_outputs_</code> (int)</p>
+<p>The number of outputs when <code>fit</code> is performed.</p>
+</li>
+<li>
+<p><code>oob_score_</code> (float)</p>
+<p>Score of the training dataset obtained using an out-of-bag estimate.</p>
+</li>
+<li>
+<p><code>oob_prediction_</code> (array of shape = [n_samples])</p>
+<p>Prediction computed with out-of-bag estimate on the training set.</p>
+</li>
+</ul>
+<p><em>Notes</em>
+The default values for the parameters controlling the size of the trees
+(e.g. <code>max_depth</code>, <code>min_samples_leaf</code>, etc.) lead to fully grown and
+unpruned trees which can potentially be very large on some data sets. To
+reduce memory consumption, the complexity and size of the trees should be
+controlled by setting those parameter values.
+The features are always randomly permuted at each split. Therefore,
+the best found split may vary, even with the same training data,
+<code>max_features=n_features</code> and <code>bootstrap=False</code>, if the improvement
+of the criterion is identical for several splits enumerated during the
+search of the best split. To obtain a deterministic behaviour during
+fitting, <code>random_state</code> has to be fixed.</p>
+<p><em>References</em>
+.. [1] L. Breiman, "Random Forests", Machine Learning, 45(1), 5-32, 2001.</p>
+<h4 id="methods">Methods</h4>
+<h5 id="extratreesregressorpredictx-return_stdfalse">ExtraTreesRegressor.predict(X, return_std=False)</h5>
+<p>Predict continuous output for X.</p>
+<p><em>Parameters</em></p>
+<ul>
+<li>
+<p><code>X</code> (array-like of shape=(n_samples, n_features))</p>
+<p>Input data.</p>
+</li>
+<li>
+<p><code>return_std</code> (boolean)</p>
+<p>Whether or not to return the standard deviation.</p>
+</li>
+</ul>
+<p><em>Returns</em></p>
+<ul>
+<li>
+<p><code>predictions</code> (array-like of shape=(n_samples,))</p>
+<p>Predicted values for X. If criterion is set to "mse",
+then <code>predictions[i] ~= mean(y | X[i])</code>.</p>
+</li>
+<li>
+<p><code>std</code> (array-like of shape=(n_samples,))</p>
+<p>Standard deviation of <code>y</code> at <code>X</code>. If criterion
+is set to "mse", then <code>std[i] ~= std(y | X[i])</code>.</p>
+</li>
+</ul>
+<h4 id="properties">Properties</h4>
+<h3 id="skgardenforestrandomforestregressor">skgarden.forest.RandomForestRegressor</h3>
+<p>RandomForestRegressor that supports conditional std computation.</p>
+<p><em>Parameters</em></p>
+<ul>
+<li>
+<p><code>n_estimators</code> (integer, optional (default=10))</p>
+<p>The number of trees in the forest.</p>
+</li>
+<li>
+<p><code>criterion</code> (string, optional (default="mse"))</p>
+<p>The function to measure the quality of a split. Supported criteria
+are "mse" for the mean squared error, which is equal to variance
+reduction as feature selection criterion, and "mae" for the mean
+absolute error.</p>
+</li>
+<li>
+<p><code>max_features</code> (int, float, string or None, optional (default="auto"))</p>
+<p>The number of features to consider when looking for the best split:
+- If int, then consider <code>max_features</code> features at each split.
+- If float, then <code>max_features</code> is a percentage and
+  <code>int(max_features * n_features)</code> features are considered at each
+  split.
+- If "auto", then <code>max_features=n_features</code>.
+- If "sqrt", then <code>max_features=sqrt(n_features)</code>.
+- If "log2", then <code>max_features=log2(n_features)</code>.
+- If None, then <code>max_features=n_features</code>.
+Note: the search for a split does not stop until at least one
+valid partition of the node samples is found, even if it requires to
+effectively inspect more than <code>max_features</code> features.</p>
+</li>
+<li>
+<p><code>max_depth</code> (integer or None, optional (default=None))</p>
+<p>The maximum depth of the tree. If None, then nodes are expanded until
+all leaves are pure or until all leaves contain less than
+min_samples_split samples.</p>
+</li>
+<li>
+<p><code>min_samples_split</code> (int, float, optional (default=2))</p>
+<p>The minimum number of samples required to split an internal node:
+- If int, then consider <code>min_samples_split</code> as the minimum number.
+- If float, then <code>min_samples_split</code> is a percentage and
+  <code>ceil(min_samples_split * n_samples)</code> are the minimum
+  number of samples for each split.</p>
+</li>
+<li>
+<p><code>min_samples_leaf</code> (int, float, optional (default=1))</p>
+<p>The minimum number of samples required to be at a leaf node:
+- If int, then consider <code>min_samples_leaf</code> as the minimum number.
+- If float, then <code>min_samples_leaf</code> is a percentage and
+  <code>ceil(min_samples_leaf * n_samples)</code> are the minimum
+  number of samples for each node.</p>
+</li>
+<li>
+<p><code>min_weight_fraction_leaf</code> (float, optional (default=0.))</p>
+<p>The minimum weighted fraction of the sum total of weights (of all
+the input samples) required to be at a leaf node. Samples have
+equal weight when sample_weight is not provided.</p>
+</li>
+<li>
+<p><code>max_leaf_nodes</code> (int or None, optional (default=None))</p>
+<p>Grow trees with <code>max_leaf_nodes</code> in best-first fashion.
+Best nodes are defined as relative reduction in impurity.
+If None then unlimited number of leaf nodes.</p>
+</li>
+<li>
+<p><code>min_impurity_decrease</code> (float, optional (default=0.))</p>
+<p>A node will be split if this split induces a decrease of the impurity
+greater than or equal to this value.
+The weighted impurity decrease equation is the following::
+    N_t / N * (impurity - N_t_R / N_t * right_impurity
+                        - N_t_L / N_t * left_impurity)
+where <code>N</code> is the total number of samples, <code>N_t</code> is the number of
+samples at the current node, <code>N_t_L</code> is the number of samples in the
+left child, and <code>N_t_R</code> is the number of samples in the right child.
+<code>N</code>, <code>N_t</code>, <code>N_t_R</code> and <code>N_t_L</code> all refer to the weighted sum,
+if <code>sample_weight</code> is passed.</p>
+</li>
+<li>
+<p><code>bootstrap</code> (boolean, optional (default=True))</p>
+<p>Whether bootstrap samples are used when building trees.</p>
+</li>
+<li>
+<p><code>oob_score</code> (bool, optional (default=False))</p>
+<p>whether to use out-of-bag samples to estimate
+the R^2 on unseen data.</p>
+</li>
+<li>
+<p><code>n_jobs</code> (integer, optional (default=1))</p>
+<p>The number of jobs to run in parallel for both <code>fit</code> and <code>predict</code>.
+If -1, then the number of jobs is set to the number of cores.</p>
+</li>
+<li>
+<p><code>random_state</code> (int, RandomState instance or None, optional (default=None))</p>
+<p>If int, random_state is the seed used by the random number generator;
+If RandomState instance, random_state is the random number generator;
+If None, the random number generator is the RandomState instance used
+by <code>np.random</code>.</p>
+</li>
+<li>
+<p><code>verbose</code> (int, optional (default=0))</p>
+<p>Controls the verbosity of the tree building process.</p>
+</li>
+<li>
+<p><code>warm_start</code> (bool, optional (default=False))</p>
+<p>When set to <code>True</code>, reuse the solution of the previous call to fit
+and add more estimators to the ensemble, otherwise, just fit a whole
+new forest.</p>
+</li>
+</ul>
+<p><em>Attributes</em></p>
+<ul>
+<li>
+<p><code>estimators_</code> (list of DecisionTreeRegressor)</p>
+<p>The collection of fitted sub-estimators.</p>
+</li>
+<li>
+<p><code>feature_importances_</code> (array of shape = [n_features])</p>
+<p>The feature importances (the higher, the more important the feature).</p>
+</li>
+<li>
+<p><code>n_features_</code> (int)</p>
+<p>The number of features when <code>fit</code> is performed.</p>
+</li>
+<li>
+<p><code>n_outputs_</code> (int)</p>
+<p>The number of outputs when <code>fit</code> is performed.</p>
+</li>
+<li>
+<p><code>oob_score_</code> (float)</p>
+<p>Score of the training dataset obtained using an out-of-bag estimate.</p>
+</li>
+<li>
+<p><code>oob_prediction_</code> (array of shape = [n_samples])</p>
+<p>Prediction computed with out-of-bag estimate on the training set.</p>
+</li>
+</ul>
+<p><em>Notes</em>
+The default values for the parameters controlling the size of the trees
+(e.g. <code>max_depth</code>, <code>min_samples_leaf</code>, etc.) lead to fully grown and
+unpruned trees which can potentially be very large on some data sets. To
+reduce memory consumption, the complexity and size of the trees should be
+controlled by setting those parameter values.
+The features are always randomly permuted at each split. Therefore,
+the best found split may vary, even with the same training data,
+<code>max_features=n_features</code> and <code>bootstrap=False</code>, if the improvement
+of the criterion is identical for several splits enumerated during the
+search of the best split. To obtain a deterministic behaviour during
+fitting, <code>random_state</code> has to be fixed.</p>
+<p><em>References</em>
+.. [1] L. Breiman, "Random Forests", Machine Learning, 45(1), 5-32, 2001.</p>
+<h4 id="methods_1">Methods</h4>
+<h5 id="randomforestregressorpredictx-return_stdfalse">RandomForestRegressor.predict(X, return_std=False)</h5>
+<p>Predict continuous output for X.</p>
+<p><em>Parameters</em></p>
+<ul>
+<li>
+<p><code>X</code> (array of shape = (n_samples, n_features))</p>
+<p>Input data.</p>
+</li>
+<li>
+<p><code>return_std</code> (boolean)</p>
+<p>Whether or not to return the standard deviation.</p>
+</li>
+</ul>
+<p><em>Returns</em></p>
+<ul>
+<li>
+<p><code>predictions</code> (array-like of shape = (n_samples,))</p>
+<p>Predicted values for X. If criterion is set to "mse",
+then <code>predictions[i] ~= mean(y | X[i])</code>.</p>
+</li>
+<li>
+<p><code>std</code> (array-like of shape=(n_samples,))</p>
+<p>Standard deviation of <code>y</code> at <code>X</code>. If criterion
+is set to "mse", then <code>std[i] ~= std(y | X[i])</code>.</p>
+</li>
+</ul>
+<h4 id="properties_1">Properties</h4>
 <h2 id="skgardenmondrian_1">skgarden.mondrian</h2>
 <h3 id="skgardenmondrianmondrianforestclassifier">skgarden.mondrian.MondrianForestClassifier</h3>
 <p>A MondrianForestClassifier is an ensemble of MondrianTreeClassifiers.</p>
@@ -176,7 +540,7 @@ If None, the random number generator is the RandomState instance used
 by <code>np.random</code>.</p>
 </li>
 </ul>
-<h4 id="methods">Methods</h4>
+<h4 id="methods_2">Methods</h4>
 <h5 id="mondrianforestclassifierfitx-y">MondrianForestClassifier.fit(X, y)</h5>
 <p>Builds a forest of trees from the training set (X, y).</p>
 <p><em>Parameters</em></p>
@@ -232,7 +596,7 @@ indicate the weight of that particular node in making predictions.</p>
 provides the weighted_decision_path of estimator i</p>
 </li>
 </ul>
-<h4 id="properties">Properties</h4>
+<h4 id="properties_2">Properties</h4>
 <h3 id="skgardenmondrianmondrianforestregressor">skgarden.mondrian.MondrianForestRegressor</h3>
 <p>A MondrianForestRegressor is an ensemble of MondrianTreeRegressors.</p>
 <p>The variance in predictions is reduced by averaging the predictions
@@ -267,7 +631,7 @@ If None, the random number generator is the RandomState instance used
 by <code>np.random</code>.</p>
 </li>
 </ul>
-<h4 id="methods_1">Methods</h4>
+<h4 id="methods_3">Methods</h4>
 <h5 id="mondrianforestregressorfitx-y">MondrianForestRegressor.fit(X, y)</h5>
 <p>Builds a forest of trees from the training set (X, y).</p>
 <p><em>Parameters</em></p>
@@ -355,7 +719,7 @@ indicate the weight of that particular node in making predictions.</p>
 provides the weighted_decision_path of estimator i</p>
 </li>
 </ul>
-<h4 id="properties_1">Properties</h4>
+<h4 id="properties_3">Properties</h4>
 <h3 id="skgardenmondrianmondriantreeclassifier">skgarden.mondrian.MondrianTreeClassifier</h3>
 <p>A Mondrian tree.</p>
 <p>The splits in a mondrian tree regressor differ from the standard regression
@@ -403,7 +767,7 @@ If None, the random number generator is the RandomState instance used
 by <code>np.random</code>.</p>
 </li>
 </ul>
-<h4 id="methods_2">Methods</h4>
+<h4 id="methods_4">Methods</h4>
 <h5 id="mondriantreeclassifierapplyx-check_inputtrue">MondrianTreeClassifier.apply(X, check_input=True)</h5>
 <p>Returns the index of the leaf that each sample is predicted as.</p>
 <p>.. versionadded:: 0.17</p>
@@ -535,7 +899,7 @@ Don't use this parameter unless you know what you do.</p>
 indicate the weight of that particular node in making predictions.</p>
 </li>
 </ul>
-<h4 id="properties_2">Properties</h4>
+<h4 id="properties_4">Properties</h4>
 <h5 id="mondriantreeclassifierfeature_importances_">MondrianTreeClassifier.feature_importances_</h5>
 <p>Return the feature importances.
 The importance of a feature is computed as the (normalized) total
@@ -592,7 +956,7 @@ If None, the random number generator is the RandomState instance used
 by <code>np.random</code>.</p>
 </li>
 </ul>
-<h4 id="methods_3">Methods</h4>
+<h4 id="methods_5">Methods</h4>
 <h5 id="mondriantreeregressorapplyx-check_inputtrue">MondrianTreeRegressor.apply(X, check_input=True)</h5>
 <p>Returns the index of the leaf that each sample is predicted as.</p>
 <p>.. versionadded:: 0.17</p>
@@ -702,7 +1066,7 @@ Don't use this parameter unless you know what you do.</p>
 indicate the weight of that particular node in making predictions.</p>
 </li>
 </ul>
-<h4 id="properties_3">Properties</h4>
+<h4 id="properties_5">Properties</h4>
 <h5 id="mondriantreeregressorfeature_importances_">MondrianTreeRegressor.feature_importances_</h5>
 <p>Return the feature importances.
 The importance of a feature is computed as the (normalized) total
@@ -837,7 +1201,7 @@ by that feature. It is also known as the Gini importance [4]_.</p>
 y_train_leaves_[i] is the leaf that y_train[i] ends up at.</p>
 </li>
 </ul>
-<h4 id="methods_4">Methods</h4>
+<h4 id="methods_6">Methods</h4>
 <h5 id="decisiontreequantileregressorpredictx-quantilenone-check_inputfalse">DecisionTreeQuantileRegressor.predict(X, quantile=None, check_input=False)</h5>
 <p>Predict regression value for X.</p>
 <p><em>Parameters</em></p>
@@ -866,7 +1230,7 @@ Don't use this parameter unless you know what you do.</p>
 y such that F(Y=y | x) = quantile.</p>
 </li>
 </ul>
-<h4 id="properties_4">Properties</h4>
+<h4 id="properties_6">Properties</h4>
 <h3 id="skgardenquantileextratreequantileregressor">skgarden.quantile.ExtraTreeQuantileRegressor</h3>
 <p>An extremely randomized tree regressor.</p>
 <p>Extra-trees differ from classic decision trees in the way they are built.
@@ -882,7 +1246,7 @@ ExtraTreeClassifier, ExtraTreesClassifier, ExtraTreesRegressor</p>
 <p><em>References</em></p>
 <p>.. [1] P. Geurts, D. Ernst., and L. Wehenkel, "Extremely randomized trees",
        Machine Learning, 63(1), 3-42, 2006.</p>
-<h4 id="methods_5">Methods</h4>
+<h4 id="methods_7">Methods</h4>
 <h5 id="extratreequantileregressorpredictx-quantilenone-check_inputfalse">ExtraTreeQuantileRegressor.predict(X, quantile=None, check_input=False)</h5>
 <p>Predict regression value for X.</p>
 <p><em>Parameters</em></p>
@@ -911,7 +1275,7 @@ Don't use this parameter unless you know what you do.</p>
 y such that F(Y=y | x) = quantile.</p>
 </li>
 </ul>
-<h4 id="properties_5">Properties</h4>
+<h4 id="properties_7">Properties</h4>
 <h3 id="skgardenquantileextratreesquantileregressor">skgarden.quantile.ExtraTreesQuantileRegressor</h3>
 <p>An extra-trees regressor that provides quantile estimates.</p>
 <p>This class implements a meta estimator that fits a number of
@@ -1063,7 +1427,7 @@ a weight of zero when estimator j is fit, then the value is -1.</p>
 <p><em>References</em>
 .. [1] Nicolai Meinshausen, Quantile Regression Forests
     http://www.jmlr.org/papers/volume7/meinshausen06a/meinshausen06a.pdf</p>
-<h4 id="methods_6">Methods</h4>
+<h4 id="methods_8">Methods</h4>
 <h5 id="extratreesquantileregressorfitx-y">ExtraTreesQuantileRegressor.fit(X, y)</h5>
 <p>Build a forest from the training set (X, y).</p>
 <p><em>Parameters</em></p>
@@ -1134,7 +1498,7 @@ Don't use this parameter unless you know what you do.</p>
 y such that F(Y=y | x) = quantile.</p>
 </li>
 </ul>
-<h4 id="properties_6">Properties</h4>
+<h4 id="properties_8">Properties</h4>
 <h3 id="skgardenquantilerandomforestquantileregressor">skgarden.quantile.RandomForestQuantileRegressor</h3>
 <p>A random forest regressor that provides quantile estimates.</p>
 <p>A random forest is a meta estimator that fits a number of classifying
@@ -1289,7 +1653,7 @@ a weight of zero when estimator j is fit, then the value is -1.</p>
 <p><em>References</em>
 .. [1] Nicolai Meinshausen, Quantile Regression Forests
     http://www.jmlr.org/papers/volume7/meinshausen06a/meinshausen06a.pdf</p>
-<h4 id="methods_7">Methods</h4>
+<h4 id="methods_9">Methods</h4>
 <h5 id="randomforestquantileregressorfitx-y">RandomForestQuantileRegressor.fit(X, y)</h5>
 <p>Build a forest from the training set (X, y).</p>
 <p><em>Parameters</em></p>
@@ -1360,7 +1724,7 @@ Don't use this parameter unless you know what you do.</p>
 y such that F(Y=y | x) = quantile.</p>
 </li>
 </ul>
-<h4 id="properties_7">Properties</h4>
+<h4 id="properties_9">Properties</h4>
               
             </div>
           </div>
