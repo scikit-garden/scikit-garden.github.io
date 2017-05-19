@@ -219,12 +219,11 @@ mean = (upper + lower) / 2
 y_true_all -= mean
 upper -= mean
 lower -= mean
+</code></pre>
 
-Plot the prediction intervals, the original target values. We see that most
-of the samples lie within the 95 p.c prediction interval.
-
-```python
-plt.plot(y_true_all, &quot;ro&quot;)
+<p>Plot the prediction intervals, the original target values. We see that most
+of the samples lie within the 95 p.c prediction interval.</p>
+<pre><code class="python">plt.plot(y_true_all, &quot;ro&quot;)
 plt.fill_between(
     np.arange(len(upper)), lower, upper, alpha=0.2, color=&quot;r&quot;,
     label=&quot;Pred. interval&quot;)
