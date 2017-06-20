@@ -465,6 +465,24 @@ indicates that the samples goes through the nodes.</p>
 </ul>
 <h5 id="mondriantreeclassifierfitx-y-sample_weightnone-check_inputtrue-x_idx_sortednone">MondrianTreeClassifier.fit(X, y, sample_weight=None, check_input=True, X_idx_sorted=None)</h5>
 <h5 id="mondriantreeclassifierpartial_fitx-y-classesnone">MondrianTreeClassifier.partial_fit(X, y, classes=None)</h5>
+<p>Incremental building of Mondrian Trees.</p>
+<p><em>Parameters</em></p>
+<ul>
+<li>
+<p><code>X</code> (array_like, shape = [n_samples, n_features])</p>
+<p>The input samples. Internally, it will be converted to
+<code>dtype=np.float32</code></p>
+</li>
+</ul>
+<p>y: array_like, shape = [n_samples]
+    Input targets.</p>
+<p>classes: array_like, shape = [n_classes]
+    Ignored for a regression problem. For a classification
+    problem, if not provided this is inferred from y.
+    This is taken into account for only the first call to
+    partial_fit and ignored for subsequent calls.</p>
+<p><em>Returns</em>
+self: instance of MondrianTree</p>
 <h5 id="mondriantreeclassifierpredictx-check_inputtrue-return_stdfalse">MondrianTreeClassifier.predict(X, check_input=True, return_std=False)</h5>
 <p>Predict class or regression value for X.</p>
 <p>For a classification model, the predicted class for each sample in X is
@@ -524,7 +542,7 @@ of that particular node in making predictions.</p>
 <p><em>Parameters</em></p>
 <ul>
 <li>
-<p><code>X</code> (array_like or sparse matrix, shape = [n_samples, n_features])</p>
+<p><code>X</code> (array_like, shape = [n_samples, n_features])</p>
 <p>The input samples. Internally, it will be converted to
 <code>dtype=np.float32</code> and if a sparse matrix is provided
 to a sparse <code>csr_matrix</code>.</p>
@@ -646,6 +664,24 @@ indicates that the samples goes through the nodes.</p>
 </ul>
 <h5 id="mondriantreeregressorfitx-y-sample_weightnone-check_inputtrue-x_idx_sortednone">MondrianTreeRegressor.fit(X, y, sample_weight=None, check_input=True, X_idx_sorted=None)</h5>
 <h5 id="mondriantreeregressorpartial_fitx-y-classesnone">MondrianTreeRegressor.partial_fit(X, y, classes=None)</h5>
+<p>Incremental building of Mondrian Trees.</p>
+<p><em>Parameters</em></p>
+<ul>
+<li>
+<p><code>X</code> (array_like, shape = [n_samples, n_features])</p>
+<p>The input samples. Internally, it will be converted to
+<code>dtype=np.float32</code></p>
+</li>
+</ul>
+<p>y: array_like, shape = [n_samples]
+    Input targets.</p>
+<p>classes: array_like, shape = [n_classes]
+    Ignored for a regression problem. For a classification
+    problem, if not provided this is inferred from y.
+    This is taken into account for only the first call to
+    partial_fit and ignored for subsequent calls.</p>
+<p><em>Returns</em>
+self: instance of MondrianTree</p>
 <h5 id="mondriantreeregressorpredictx-check_inputtrue-return_stdfalse">MondrianTreeRegressor.predict(X, check_input=True, return_std=False)</h5>
 <p>Predict class or regression value for X.</p>
 <p>For a classification model, the predicted class for each sample in X is
@@ -683,7 +719,7 @@ of that particular node in making predictions.</p>
 <p><em>Parameters</em></p>
 <ul>
 <li>
-<p><code>X</code> (array_like or sparse matrix, shape = [n_samples, n_features])</p>
+<p><code>X</code> (array_like, shape = [n_samples, n_features])</p>
 <p>The input samples. Internally, it will be converted to
 <code>dtype=np.float32</code> and if a sparse matrix is provided
 to a sparse <code>csr_matrix</code>.</p>
