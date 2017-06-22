@@ -215,6 +215,25 @@ single class carrying a negative weight in either child node.</p>
 <p>Returns self.</p>
 </li>
 </ul>
+<h5 id="mondrianforestclassifierpartial_fitx-y-classesnone">MondrianForestClassifier.partial_fit(X, y, classes=None)</h5>
+<p>Incremental building of Mondrian Trees.</p>
+<p><em>Parameters</em></p>
+<ul>
+<li>
+<p><code>X</code> (array_like, shape = [n_samples, n_features])</p>
+<p>The input samples. Internally, it will be converted to
+<code>dtype=np.float32</code></p>
+</li>
+</ul>
+<p>y: array_like, shape = [n_samples]
+    Input targets.</p>
+<p>classes: array_like, shape = [n_classes]
+    Ignored for a regression problem. For a classification
+    problem, if not provided this is inferred from y.
+    This is taken into account for only the first call to
+    partial_fit and ignored for subsequent calls.</p>
+<p><em>Returns</em>
+self: instance of MondrianTree</p>
 <h5 id="mondrianforestclassifierweighted_decision_pathx">MondrianForestClassifier.weighted_decision_path(X)</h5>
 <p>Returns the weighted decision path in the forest.</p>
 <p>Each non-zero value in the decision path determines the
@@ -306,6 +325,25 @@ single class carrying a negative weight in either child node.</p>
 <p>Returns self.</p>
 </li>
 </ul>
+<h5 id="mondrianforestregressorpartial_fitx-y-classesnone">MondrianForestRegressor.partial_fit(X, y, classes=None)</h5>
+<p>Incremental building of Mondrian Trees.</p>
+<p><em>Parameters</em></p>
+<ul>
+<li>
+<p><code>X</code> (array_like, shape = [n_samples, n_features])</p>
+<p>The input samples. Internally, it will be converted to
+<code>dtype=np.float32</code></p>
+</li>
+</ul>
+<p>y: array_like, shape = [n_samples]
+    Input targets.</p>
+<p>classes: array_like, shape = [n_classes]
+    Ignored for a regression problem. For a classification
+    problem, if not provided this is inferred from y.
+    This is taken into account for only the first call to
+    partial_fit and ignored for subsequent calls.</p>
+<p><em>Returns</em>
+self: instance of MondrianTree</p>
 <h5 id="mondrianforestregressorpredictx-return_stdfalse">MondrianForestRegressor.predict(X, return_std=False)</h5>
 <p>Returns the predicted mean and std.</p>
 <p>The prediction is a GMM drawn from
