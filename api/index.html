@@ -216,7 +216,7 @@ single class carrying a negative weight in either child node.</p>
 </li>
 </ul>
 <h5 id="mondrianforestclassifierpartial_fitx-y-classesnone">MondrianForestClassifier.partial_fit(X, y, classes=None)</h5>
-<p>Incremental building of Mondrian Trees.</p>
+<p>Incremental building of Mondrian Forest Classifiers.</p>
 <p><em>Parameters</em></p>
 <ul>
 <li>
@@ -233,7 +233,7 @@ single class carrying a negative weight in either child node.</p>
     This is taken into account for only the first call to
     partial_fit and ignored for subsequent calls.</p>
 <p><em>Returns</em>
-self: instance of MondrianTree</p>
+self: instance of MondrianForestClassifier</p>
 <h5 id="mondrianforestclassifierweighted_decision_pathx">MondrianForestClassifier.weighted_decision_path(X)</h5>
 <p>Returns the weighted decision path in the forest.</p>
 <p>Each non-zero value in the decision path determines the
@@ -325,8 +325,8 @@ single class carrying a negative weight in either child node.</p>
 <p>Returns self.</p>
 </li>
 </ul>
-<h5 id="mondrianforestregressorpartial_fitx-y-classesnone">MondrianForestRegressor.partial_fit(X, y, classes=None)</h5>
-<p>Incremental building of Mondrian Trees.</p>
+<h5 id="mondrianforestregressorpartial_fitx-y">MondrianForestRegressor.partial_fit(X, y)</h5>
+<p>Incremental building of Mondrian Forest Regressors.</p>
 <p><em>Parameters</em></p>
 <ul>
 <li>
@@ -343,7 +343,7 @@ single class carrying a negative weight in either child node.</p>
     This is taken into account for only the first call to
     partial_fit and ignored for subsequent calls.</p>
 <p><em>Returns</em>
-self: instance of MondrianTree</p>
+self: instance of MondrianForestClassifier</p>
 <h5 id="mondrianforestregressorpredictx-return_stdfalse">MondrianForestRegressor.predict(X, return_std=False)</h5>
 <p>Returns the predicted mean and std.</p>
 <p>The prediction is a GMM drawn from
