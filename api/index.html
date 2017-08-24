@@ -937,8 +937,122 @@ selected features and the best split among those is chosen. When
 decision tree.</p>
 <p>Warning: Extra-trees should only be used within ensemble methods.</p>
 <p>Read more in the :ref:<code>User Guide &lt;tree&gt;</code>.</p>
+<p><em>Parameters</em></p>
+<ul>
+<li>
+<p><code>criterion</code> (string, optional (default="mse"))</p>
+<p>The function to measure the quality of a split. Supported criteria
+are "mse" for the mean squared error, which is equal to variance
+reduction as feature selection criterion, and "mae" for the mean
+absolute error.</p>
+<p>.. versionadded:: 0.18
+   Mean Absolute Error (MAE) criterion.</p>
+</li>
+<li>
+<p><code>splitter</code> (string, optional (default="best"))</p>
+<p>The strategy used to choose the split at each node. Supported
+strategies are "best" to choose the best split and "random" to choose
+the best random split.</p>
+</li>
+<li>
+<p><code>max_depth</code> (int or None, optional (default=None))</p>
+<p>The maximum depth of the tree. If None, then nodes are expanded until
+all leaves are pure or until all leaves contain less than
+min_samples_split samples.</p>
+</li>
+<li>
+<p><code>min_samples_split</code> (int, float, optional (default=2))</p>
+<p>The minimum number of samples required to split an internal node:</p>
+<ul>
+<li>If int, then consider <code>min_samples_split</code> as the minimum number.</li>
+<li>If float, then <code>min_samples_split</code> is a percentage and
+  <code>ceil(min_samples_split * n_samples)</code> are the minimum
+  number of samples for each split.</li>
+</ul>
+<p>.. versionchanged:: 0.18
+   Added float values for percentages.</p>
+</li>
+<li>
+<p><code>min_samples_leaf</code> (int, float, optional (default=1))</p>
+<p>The minimum number of samples required to be at a leaf node:</p>
+<ul>
+<li>If int, then consider <code>min_samples_leaf</code> as the minimum number.</li>
+<li>If float, then <code>min_samples_leaf</code> is a percentage and
+  <code>ceil(min_samples_leaf * n_samples)</code> are the minimum
+  number of samples for each node.</li>
+</ul>
+<p>.. versionchanged:: 0.18
+   Added float values for percentages.</p>
+</li>
+<li>
+<p><code>min_weight_fraction_leaf</code> (float, optional (default=0.))</p>
+<p>The minimum weighted fraction of the sum total of weights (of all
+the input samples) required to be at a leaf node. Samples have
+equal weight when sample_weight is not provided.</p>
+</li>
+<li>
+<p><code>max_features</code> (int, float, string or None, optional (default=None))</p>
+<p>The number of features to consider when looking for the best split:</p>
+<ul>
+<li>If int, then consider <code>max_features</code> features at each split.</li>
+<li>If float, then <code>max_features</code> is a percentage and
+  <code>int(max_features * n_features)</code> features are considered at each
+  split.</li>
+<li>If "auto", then <code>max_features=n_features</code>.</li>
+<li>If "sqrt", then <code>max_features=sqrt(n_features)</code>.</li>
+<li>If "log2", then <code>max_features=log2(n_features)</code>.</li>
+<li>If None, then <code>max_features=n_features</code>.</li>
+</ul>
+<p>Note: the search for a split does not stop until at least one
+valid partition of the node samples is found, even if it requires to
+effectively inspect more than <code>max_features</code> features.</p>
+</li>
+<li>
+<p><code>random_state</code> (int, RandomState instance or None, optional (default=None))</p>
+<p>If int, random_state is the seed used by the random number generator;
+If RandomState instance, random_state is the random number generator;
+If None, the random number generator is the RandomState instance used
+by <code>np.random</code>.</p>
+</li>
+<li>
+<p><code>min_impurity_decrease</code> (float, optional (default=0.))</p>
+<p>A node will be split if this split induces a decrease of the impurity
+greater than or equal to this value.</p>
+<p>The weighted impurity decrease equation is the following::</p>
+<pre><code>N_t / N * (impurity - N_t_R / N_t * right_impurity
+                    - N_t_L / N_t * left_impurity)
+</code></pre>
+<p>where <code>N</code> is the total number of samples, <code>N_t</code> is the number of
+samples at the current node, <code>N_t_L</code> is the number of samples in the
+left child, and <code>N_t_R</code> is the number of samples in the right child.</p>
+<p><code>N</code>, <code>N_t</code>, <code>N_t_R</code> and <code>N_t_L</code> all refer to the weighted sum,
+if <code>sample_weight</code> is passed.</p>
+<p>.. versionadded:: 0.19</p>
+</li>
+<li>
+<p><code>min_impurity_split</code> (float,)</p>
+<p>Threshold for early stopping in tree growth. A node will split
+if its impurity is above the threshold, otherwise it is a leaf.</p>
+<p>.. deprecated:: 0.19
+   <code>min_impurity_split</code> has been deprecated in favor of
+   <code>min_impurity_decrease</code> in 0.19 and will be removed in 0.21.
+   Use <code>min_impurity_decrease</code> instead.</p>
+</li>
+<li>
+<p><code>max_leaf_nodes</code> (int or None, optional (default=None))</p>
+<p>Grow a tree with <code>max_leaf_nodes</code> in best-first fashion.
+Best nodes are defined as relative reduction in impurity.
+If None then unlimited number of leaf nodes.</p>
+</li>
+</ul>
 <p><em>See also</em>
 ExtraTreeClassifier, ExtraTreesClassifier, ExtraTreesRegressor</p>
+<p><em>Notes</em>
+The default values for the parameters controlling the size of the trees
+(e.g. <code>max_depth</code>, <code>min_samples_leaf</code>, etc.) lead to fully grown and
+unpruned trees which can potentially be very large on some data sets. To
+reduce memory consumption, the complexity and size of the trees should be
+controlled by setting those parameter values.</p>
 <p><em>References</em></p>
 <p>.. [1] P. Geurts, D. Ernst., and L. Wehenkel, "Extremely randomized trees",
        Machine Learning, 63(1), 3-42, 2006.</p>
