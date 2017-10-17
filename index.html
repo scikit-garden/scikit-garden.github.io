@@ -136,7 +136,8 @@
 <h2 id="usage">Usage</h2>
 <p>The estimators in Scikit-Garden are Scikit-Learn compatible and can serve as a drop-in replacement for Scikit-Learn's trees and forests.</p>
 <pre><code class="python">from sklearn.datasets import load_boston
-X, y = make_boston()
+boston = load_boston()
+X, y = boston.data, boston.target
 
 ### Use MondrianForests for variance estimation
 from skgarden import MondrianForestRegressor
@@ -198,5 +199,5 @@ y_median = rfqr.predict(X, 50)
 
 <!--
 MkDocs version : 0.16.3
-Build Date UTC : 2017-09-12 06:22:22
+Build Date UTC : 2017-10-17 18:16:17
 -->
